@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Purchase Order List - GEP SCM Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#454556",
+                    "status-error": "#EF4444",
+                    "on-primary-container": "#dfdeff",
+                    "health-ok": "#10B981",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#e2e2e6",
+                    "on-secondary-fixed": "#1a1c1f",
+                    "on-tertiary-container": "#ffd8cd",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c6c4d9",
+                    "health-slow": "#F59E0B",
+                    "tertiary-container": "#b63600",
+                    "on-primary-fixed": "#01006e",
+                    "surface-container-low": "#f5f2ff",
+                    "tertiary": "#8d2800",
+                    "surface-bright": "#fbf8ff",
+                    "tertiary-fixed-dim": "#ffb59e",
+                    "primary": "#1d20e9",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1a1b25",
+                    "surface": "#fbf8ff",
+                    "surface-container-high": "#e9e6f5",
+                    "on-primary-fixed-variant": "#1213e4",
+                    "surface-variant": "#e3e1ef",
+                    "status-pending": "#F59E0B",
+                    "surface-tint": "#373ffa",
+                    "on-error": "#ffffff",
+                    "outline": "#767588",
+                    "on-surface": "#1a1b25",
+                    "status-fulfilled": "#14B8A6",
+                    "primary-fixed": "#e0e0ff",
+                    "tertiary-fixed": "#ffdbd0",
+                    "surface-container": "#efecfb",
+                    "status-inactive": "#6B7280",
+                    "primary-container": "#3e46ff",
+                    "on-secondary-container": "#616266",
+                    "on-tertiary-fixed": "#3a0b00",
+                    "inverse-surface": "#2f2f3a",
+                    "health-down": "#EF4444",
+                    "on-secondary-fixed-variant": "#45474a",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#5d5e62",
+                    "inverse-on-surface": "#f1effe",
+                    "status-active": "#10B981",
+                    "status-submitted": "#3E46FF",
+                    "surface-dim": "#dad8e7",
+                    "secondary-fixed-dim": "#c6c6ca",
+                    "inverse-primary": "#bfc2ff",
+                    "surface-container-highest": "#e3e1ef",
+                    "on-primary": "#ffffff",
+                    "background": "#fbf8ff",
+                    "on-tertiary-fixed-variant": "#842500",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#dfdfe3",
+                    "primary-fixed-dim": "#bfc2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gap-md": "16px",
+                    "sidebar-width": "240px",
+                    "container-padding": "24px",
+                    "sidebar-collapsed": "64px",
+                    "table-row-height": "32px",
+                    "gap-sm": "8px",
+                    "base": "4px",
+                    "gap-xs": "4px"
+            },
+            "fontFamily": {
+                    "display-kpi": [
+                            "Roboto"
+                    ],
+                    "code-sm": [
+                            "jetbrainsMono"
+                    ],
+                    "label-caps": [
+                            "Roboto"
+                    ],
+                    "headline-sm": [
+                            "Roboto"
+                    ],
+                    "body-sm": [
+                            "Roboto"
+                    ],
+                    "body-md": [
+                            "Roboto"
+                    ],
+                    "table-header": [
+                            "Roboto"
+                    ]
+            },
+            "fontSize": {
+                    "display-kpi": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "code-sm": [
+                            "11px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "10px",
+                            {
+                                    "lineHeight": "12px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-sm": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "11px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "18px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "table-header": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for dense tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-lowest'); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant'); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline'); 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 backdrop-blur-md h-[56px] border-b border-outline-variant">
+<div class="flex items-center gap-gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary">GEP SCM Platform</span>
+<!-- Service Health Indicator -->
+<div class="flex items-center gap-2 ml-4 px-3 py-1 bg-surface-container-low rounded-full border border-outline-variant cursor-help group relative">
+<div class="w-2 h-2 rounded-full bg-health-ok"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SYSTEM NORMAL</span>
+<!-- Health Popover (Hidden by default, shown on hover via CSS/JS logic, mocked here) -->
+<div class="absolute top-full left-0 mt-2 w-48 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT shadow-lg p-2 hidden group-hover:block z-50">
+<div class="flex justify-between items-center mb-1"><span class="font-code-sm text-code-sm">IAM</span><span class="font-code-sm text-code-sm text-health-ok">12ms</span></div>
+<div class="flex justify-between items-center mb-1"><span class="font-code-sm text-code-sm">SUP</span><span class="font-code-sm text-code-sm text-health-ok">45ms</span></div>
+<div class="flex justify-between items-center"><span class="font-code-sm text-code-sm">PO</span><span class="font-code-sm text-code-sm text-health-ok">28ms</span></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-gap-sm">
+<!-- Global Search -->
+<div class="relative w-64 mr-4">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[16px]" data-icon="search">search</span>
+<input class="w-full h-8 pl-8 pr-3 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-sm text-body-sm text-on-surface placeholder-outline focus:outline-none focus:border-primary transition-colors" placeholder="Search POs, Suppliers..." type="text"/>
+</div>
+<button aria-label="sensors" class="w-8 h-8 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="sensors">sensors</span>
+</button>
+<button aria-label="dark_mode" class="w-8 h-8 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="dark_mode">dark_mode</span>
+</button>
+<button aria-label="notifications" class="w-8 h-8 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="account_circle" class="w-8 h-8 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col pt-[56px] transition-all duration-300 w-[sidebar-width] bg-surface border-r border-outline-variant z-40">
+<!-- App Header Area -->
+<div class="p-container-padding border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 bg-primary-container rounded flex items-center justify-center text-on-primary-container font-bold">G</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-tight">SCM Mission Control</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Global Operations</p>
+</div>
+</div>
+<!-- Primary Action mapped from JSON 'cta' -->
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary h-8 rounded-DEFAULT font-body-sm text-body-sm font-medium hover:bg-on-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+                New Purchase Order
+            </button>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="factory">factory</span>
+                Suppliers
+            </a>
+<!-- Active State Navigation -->
+<a class="flex items-center gap-3 bg-primary-container/10 text-primary border-l-4 border-primary px-4 py-3 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="shopping_cart">shopping_cart</span>
+                Orders
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="inventory_2">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="local_shipping">local_shipping</span>
+                Logistics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<!-- Footer Navigation Tabs -->
+<div class="border-t border-outline-variant py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+                Sign Out
+            </a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-0 md:ml-[sidebar-width] pt-[56px] h-screen flex flex-col bg-surface-container-lowest">
+<!-- Page Header & Filters -->
+<div class="flex-none p-container-padding pb-4 border-b border-outline-variant bg-surface-bright">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Purchase Orders</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage and track supplier procurement.</p>
+</div>
+<div class="flex gap-2">
+<button class="h-8 px-3 flex items-center gap-2 border border-outline-variant rounded-DEFAULT text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+                        Filters
+                    </button>
+<button class="h-8 px-3 flex items-center gap-2 border border-outline-variant rounded-DEFAULT text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="download">download</span>
+                        Export
+                    </button>
+<button class="h-8 px-4 bg-primary text-on-primary rounded-DEFAULT font-body-sm text-body-sm font-medium hover:bg-on-primary-fixed-variant transition-colors shadow-sm">
+                        Create PO
+                    </button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-2">
+<button class="h-6 px-3 rounded-full border border-primary bg-primary-container/10 text-primary font-label-caps text-label-caps flex items-center hover:bg-primary-container/20 transition-colors">
+                    ALL STATUSES (142)
+                </button>
+<button class="h-6 px-3 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps flex items-center hover:bg-surface-container-high transition-colors">
+                    DRAFT (12)
+                </button>
+<button class="h-6 px-3 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps flex items-center hover:bg-surface-container-high transition-colors">
+                    SUBMITTED (34)
+                </button>
+<button class="h-6 px-3 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps flex items-center hover:bg-surface-container-high transition-colors">
+                    APPROVED (89)
+                </button>
+<button class="h-6 px-3 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-label-caps flex items-center hover:bg-surface-container-high transition-colors">
+                    REJECTED (7)
+                </button>
+</div>
+</div>
+<!-- Data Table Area -->
+<div class="flex-1 overflow-auto bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-[#F8FAFC] border-b border-outline-variant z-10 shadow-sm">
+<tr>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-12"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-32">PO Number</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-48">Supplier Name</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase text-right w-32">Total Amount</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-32">Status</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-32">Expected Delivery</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant uppercase w-32">Created At</th>
+<th class="px-4 py-2 w-12"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<tr class="h-[table-row-height] hover:bg-surface-container-low transition-colors group">
+<td class="px-4 py-0"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-primary cursor-pointer hover:underline">PO-2023-8901</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface truncate">Global Tech Supplies Inc.</td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-on-surface text-right">$45,200.00</td>
+<td class="px-4 py-0">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase">APPROVED</span>
+</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 10, 2023</td>
+<td class="px-4 py-0 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-[table-row-height] hover:bg-surface-container-low transition-colors group">
+<td class="px-4 py-0"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-primary cursor-pointer hover:underline">PO-2023-8902</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface truncate">Apex Manufacturing Solutions</td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-on-surface text-right">$12,850.50</td>
+<td class="px-4 py-0">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-submitted/10 text-status-submitted font-label-caps text-label-caps uppercase">SUBMITTED</span>
+</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Nov 05, 2023</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-4 py-0 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-[table-row-height] hover:bg-surface-container-low transition-colors group">
+<td class="px-4 py-0"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-primary cursor-pointer hover:underline">PO-2023-8903</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface truncate">Nexus Logistics Partners</td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-on-surface text-right">$8,400.00</td>
+<td class="px-4 py-0">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full border border-status-error text-status-error font-label-caps text-label-caps uppercase bg-transparent">CANCELLED</span>
+</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">-</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-4 py-0 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-[table-row-height] hover:bg-surface-container-low transition-colors group">
+<td class="px-4 py-0"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-primary cursor-pointer hover:underline">PO-2023-8904</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface truncate">Global Tech Supplies Inc.</td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-on-surface text-right">$105,000.00</td>
+<td class="px-4 py-0">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps uppercase">DRAFT</span>
+</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">TBD</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-4 py-0 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-[table-row-height] hover:bg-surface-container-low transition-colors group">
+<td class="px-4 py-0"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/></td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-primary cursor-pointer hover:underline">PO-2023-8905</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface truncate">Quantum Electronics</td>
+<td class="px-4 py-0 font-code-sm text-code-sm text-on-surface text-right">$22,150.75</td>
+<td class="px-4 py-0">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase">APPROVED</span>
+</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 28, 2023</td>
+<td class="px-4 py-0 font-body-sm text-body-sm text-on-surface-variant">Oct 16, 2023</td>
+<td class="px-4 py-0 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex-none p-2 border-t border-outline-variant bg-surface-container-lowest flex items-center justify-between px-container-padding">
+<span class="font-body-sm text-body-sm text-on-surface-variant">1-50 of 142 Purchase Orders</span>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rows per page:</span>
+<select class="h-6 py-0 pl-2 pr-6 text-body-sm font-body-sm border-outline-variant rounded-DEFAULT bg-transparent focus:ring-primary text-on-surface">
+<option>50</option>
+<option>100</option>
+<option>200</option>
+</select>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-50">
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

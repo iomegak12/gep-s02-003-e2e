@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GEP SCM Platform - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#616266",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#5d5e62",
+                        "secondary-fixed-dim": "#c6c6ca",
+                        "inverse-primary": "#bfc2ff",
+                        "surface-tint": "#373ffa",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f5f2ff",
+                        "on-secondary-fixed-variant": "#45474a",
+                        "status-submitted": "#3E46FF",
+                        "surface-bright": "#fbf8ff",
+                        "primary-fixed-dim": "#bfc2ff",
+                        "health-down": "#EF4444",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-fixed-variant": "#1213e4",
+                        "inverse-on-surface": "#f1effe",
+                        "outline": "#767588",
+                        "error": "#ba1a1a",
+                        "status-active": "#10B981",
+                        "surface-container-high": "#e9e6f5",
+                        "on-primary-fixed": "#01006e",
+                        "on-surface-variant": "#454556",
+                        "primary-container": "#3e46ff",
+                        "on-tertiary-fixed-variant": "#842500",
+                        "status-error": "#EF4444",
+                        "surface-container-highest": "#e3e1ef",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#dfdeff",
+                        "inverse-surface": "#2f2f3a",
+                        "tertiary": "#8d2800",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "surface-variant": "#e3e1ef",
+                        "on-background": "#1a1b25",
+                        "background": "#fbf8ff",
+                        "status-fulfilled": "#14B8A6",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efecfb",
+                        "secondary-container": "#dfdfe3",
+                        "on-tertiary-container": "#ffd8cd",
+                        "health-slow": "#F59E0B",
+                        "health-ok": "#10B981",
+                        "tertiary-container": "#b63600",
+                        "surface": "#fbf8ff",
+                        "outline-variant": "#c6c4d9",
+                        "status-pending": "#F59E0B",
+                        "surface-dim": "#dad8e7",
+                        "error-container": "#ffdad6",
+                        "status-inactive": "#6B7280",
+                        "primary": "#1d20e9",
+                        "secondary-fixed": "#e2e2e6",
+                        "on-secondary-fixed": "#1a1c1f",
+                        "primary-fixed": "#e0e0ff",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "on-surface": "#1a1b25"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "sidebar-collapsed": "64px",
+                        "gap-xs": "4px",
+                        "gap-sm": "8px",
+                        "base": "4px",
+                        "table-row-height": "32px",
+                        "gap-md": "16px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "table-header": ["Roboto"],
+                        "label-caps": ["Roboto"],
+                        "headline-sm": ["Roboto"],
+                        "code-sm": ["jetbrainsMono"],
+                        "display-kpi": ["Roboto"],
+                        "body-sm": ["Roboto"],
+                        "body-md": ["Roboto"]
+                    },
+                    "fontSize": {
+                        "table-header": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "code-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "display-kpi": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Grid base 4px system */
+        body { background-color: #fbf8ff; color: #1a1b25; }
+        
+        /* Subtle scrollbar for data density */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fbf8ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c6c4d9;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #767588;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-background overflow-hidden h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface text-primary-fixed-dim font-body-md text-body-md docked left-0 h-full w-[sidebar-width] border-r border-outline-variant flat no shadows fixed left-0 top-0 h-full flex-col pt-[56px] transition-all duration-300 z-40">
+<div class="px-container-padding py-gap-md border-b border-outline-variant flex flex-col gap-base">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface truncate">SCM Mission Control</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Global Operations</span>
+</div>
+<div class="px-4 py-gap-sm">
+<button class="w-full bg-primary text-on-primary font-table-header text-table-header h-[32px] rounded flex items-center justify-center gap-gap-xs hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+                New Purchase Order
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto py-gap-xs flex flex-col gap-[2px]">
+<!-- Active Tab -->
+<a class="bg-primary-container/10 text-primary border-l-4 border-primary px-4 py-3 flex items-center gap-gap-sm hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-weight="fill">dashboard</span>
+                Dashboard
+            </a>
+<!-- Inactive Tabs -->
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">factory</span>
+                Suppliers
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+                Orders
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                Logistics
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Analytics
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+<div class="border-t border-outline-variant py-gap-xs flex flex-col gap-[2px]">
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+                Support
+            </a>
+<a class="text-on-surface-variant px-4 py-3 hover:bg-surface-container-low flex items-center gap-gap-sm border-l-4 border-transparent hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-[sidebar-width] h-screen overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md text-primary font-headline-sm text-headline-sm docked full-width top-0 h-[56px] border-b border-outline-variant flat no shadows fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding md:pl-[calc(240px+24px)]">
+<div class="flex items-center gap-gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary">GEP SCM Platform</span>
+<!-- Service Health Dots -->
+<div class="hidden lg:flex items-center gap-gap-sm ml-gap-md border-l border-outline-variant pl-gap-md h-[24px]">
+<div class="flex items-center gap-[6px] group relative cursor-help">
+<div class="w-[8px] h-[8px] rounded-full bg-health-ok"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">IAM</span>
+</div>
+<div class="flex items-center gap-[6px] group relative cursor-help">
+<div class="w-[8px] h-[8px] rounded-full bg-health-slow"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">SUP</span>
+</div>
+<div class="flex items-center gap-[6px] group relative cursor-help">
+<div class="w-[8px] h-[8px] rounded-full bg-health-down animate-pulse"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">PO</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-gap-sm">
+<div class="hidden md:flex relative w-[240px]">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 16px;">search</span>
+<input class="w-full h-[32px] pl-8 pr-2 bg-surface border border-outline-variant rounded font-body-sm text-body-sm focus:border-primary focus:ring-0 placeholder-on-surface-variant/50" placeholder="Search POs, Suppliers..." type="text"/>
+</div>
+<button class="w-[32px] h-[32px] flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="w-[32px] h-[32px] flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="w-[32px] h-[32px] flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<div class="absolute top-[4px] right-[4px] w-[6px] h-[6px] rounded-full bg-error"></div>
+</button>
+<button class="w-[32px] h-[32px] flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors ml-gap-xs">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto pt-[56px] bg-background p-container-padding">
+<div class="max-w-[1440px] mx-auto grid grid-cols-12 gap-gap-md">
+<!-- KPI Row -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gap-md">
+<!-- Total Users KPI -->
+<div class="bg-surface border border-outline-variant rounded p-gap-md flex flex-col justify-between h-[100px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">TOTAL SYSTEM USERS (IAM)</span>
+<div class="flex items-end justify-between">
+<span class="font-display-kpi text-display-kpi text-on-surface">12,450</span>
+<div class="bg-status-active/10 text-status-active font-label-caps text-label-caps px-[6px] py-[2px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined" style="font-size: 10px;">trending_up</span>
+                                2.4%
+                            </div>
+</div>
+</div>
+<!-- Active Suppliers KPI -->
+<div class="bg-surface border border-outline-variant rounded p-gap-md flex flex-col justify-between h-[100px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">ACTIVE SUPPLIERS</span>
+<div class="flex items-end justify-between">
+<span class="font-display-kpi text-display-kpi text-on-surface">8,902</span>
+<div class="bg-status-active/10 text-status-active font-label-caps text-label-caps px-[6px] py-[2px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined" style="font-size: 10px;">trending_up</span>
+                                0.8%
+                            </div>
+</div>
+</div>
+<!-- Pending POs KPI -->
+<div class="bg-surface border border-outline-variant rounded p-gap-md flex flex-col justify-between h-[100px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">PENDING POs</span>
+<div class="flex items-end justify-between">
+<span class="font-display-kpi text-display-kpi text-on-surface">1,245</span>
+<div class="bg-status-error/10 text-status-error font-label-caps text-label-caps px-[6px] py-[2px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined" style="font-size: 10px;">priority_high</span>
+                                ACTION REQ
+                            </div>
+</div>
+</div>
+<!-- YTD Spend KPI -->
+<div class="bg-surface border border-outline-variant rounded p-gap-md flex flex-col justify-between h-[100px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">YTD SPEND (USD)</span>
+<div class="flex items-end justify-between">
+<span class="font-display-kpi text-display-kpi text-on-surface">$4.2B</span>
+<div class="bg-outline-variant/20 text-on-surface-variant font-label-caps text-label-caps px-[6px] py-[2px] rounded flex items-center gap-[2px]">
+                                YOY +12%
+                            </div>
+</div>
+</div>
+</div>
+<!-- Charts Row -->
+<div class="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-gap-md">
+<!-- Suppliers by Status (Donut placeholder) -->
+<div class="col-span-1 lg:col-span-4 bg-surface border border-outline-variant rounded flex flex-col h-[320px]">
+<div class="p-gap-md border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Suppliers by Status</h2>
+<button class="text-on-surface-variant"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</div>
+<div class="flex-1 p-gap-md flex items-center justify-center relative">
+<!-- CSS pure visual representation of a donut chart -->
+<div class="w-[160px] h-[160px] rounded-full border-[24px] border-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-[24px] border-t-status-active border-r-status-active border-b-status-pending border-l-status-error rotate-45" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);"></div>
+<div class="font-display-kpi text-display-kpi text-on-surface">12k</div>
+</div>
+<!-- Legend -->
+<div class="absolute bottom-4 left-4 right-4 flex justify-center gap-gap-md font-body-sm text-body-sm">
+<div class="flex items-center gap-xs"><div class="w-2 h-2 rounded-full bg-status-active"></div>Active</div>
+<div class="flex items-center gap-xs"><div class="w-2 h-2 rounded-full bg-status-pending"></div>Review</div>
+<div class="flex items-center gap-xs"><div class="w-2 h-2 rounded-full bg-status-error"></div>Blocked</div>
+</div>
+</div>
+</div>
+<!-- POs by Status (Bar Chart placeholder) -->
+<div class="col-span-1 lg:col-span-8 bg-surface border border-outline-variant rounded flex flex-col h-[320px]">
+<div class="p-gap-md border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">PO Volume by Status (Last 30 Days)</h2>
+<button class="text-on-surface-variant"><span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span></button>
+</div>
+<div class="flex-1 p-gap-md flex items-end gap-2 h-full pb-[40px] relative">
+<!-- Y-Axis labels -->
+<div class="absolute left-4 top-4 bottom-[40px] flex flex-col justify-between font-code-sm text-code-sm text-on-surface-variant text-right w-[30px]">
+<span>5k</span><span>4k</span><span>3k</span><span>2k</span><span>1k</span><span>0</span>
+</div>
+<!-- Horizontal grid lines -->
+<div class="absolute left-[50px] right-4 top-4 bottom-[40px] flex flex-col justify-between z-0">
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+<div class="w-full border-t border-outline-variant/30 h-0"></div>
+</div>
+<!-- Bars -->
+<div class="flex-1 flex items-end justify-around pl-[40px] z-10 h-full">
+<div class="w-full max-w-[40px] bg-status-submitted rounded-t h-[80%] relative group"><span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-body-sm text-body-sm text-on-surface-variant">W1</span></div>
+<div class="w-full max-w-[40px] bg-status-submitted rounded-t h-[60%] relative group"><span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-body-sm text-body-sm text-on-surface-variant">W2</span></div>
+<div class="w-full max-w-[40px] bg-status-submitted rounded-t h-[90%] relative group"><span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-body-sm text-body-sm text-on-surface-variant">W3</span></div>
+<div class="w-full max-w-[40px] bg-status-submitted rounded-t h-[40%] relative group"><span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-body-sm text-body-sm text-on-surface-variant">W4</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Table: Top 10 Suppliers -->
+<div class="col-span-12 bg-surface border border-outline-variant rounded flex flex-col mb-container-padding">
+<div class="p-gap-md border-b border-outline-variant flex justify-between items-center bg-[#F8FAFC]">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Top Suppliers by Spend YTD</h2>
+<div class="flex gap-gap-sm">
+<button class="h-[28px] px-2 text-on-surface-variant border border-outline-variant rounded flex items-center gap-1 font-body-sm hover:bg-surface-container-low"><span class="material-symbols-outlined" style="font-size: 14px;">download</span> Export</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-[#F8FAFC]">
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant w-[80px]">ID</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant">SUPPLIER NAME</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant">REGION</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant">CATEGORY</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant text-right">SPEND YTD</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant">STATUS</th>
+<th class="px-4 py-2 font-table-header text-table-header text-on-surface-variant text-center w-[40px]"></th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1 -->
+<tr class="h-[table-row-height] border-b border-outline-variant/50 hover:bg-surface-container-lowest">
+<td class="px-4 font-code-sm text-code-sm text-on-surface-variant">SUP-9012</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Apex Global Manufacturing</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">APAC</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Raw Materials</td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface text-right">$452.1M</td>
+<td class="px-4">
+<div class="inline-flex bg-status-active/10 text-status-active font-label-caps text-label-caps px-[6px] py-[2px] rounded uppercase">Active</div>
+</td>
+<td class="px-4 text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="h-[table-row-height] border-b border-outline-variant/50 hover:bg-surface-container-lowest">
+<td class="px-4 font-code-sm text-code-sm text-on-surface-variant">SUP-4421</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">TechLogix Solutions</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">NA</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">IT Hardware</td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface text-right">$310.8M</td>
+<td class="px-4">
+<div class="inline-flex bg-status-active/10 text-status-active font-label-caps text-label-caps px-[6px] py-[2px] rounded uppercase">Active</div>
+</td>
+<td class="px-4 text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="h-[table-row-height] border-b border-outline-variant/50 hover:bg-surface-container-lowest">
+<td class="px-4 font-code-sm text-code-sm text-on-surface-variant">SUP-1109</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">EuroChem Industries</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">EMEA</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Chemicals</td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface text-right">$289.4M</td>
+<td class="px-4">
+<div class="inline-flex bg-status-pending/10 text-status-pending font-label-caps text-label-caps px-[6px] py-[2px] rounded uppercase">Review</div>
+</td>
+<td class="px-4 text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="h-[table-row-height] border-b border-outline-variant/50 hover:bg-surface-container-lowest">
+<td class="px-4 font-code-sm text-code-sm text-on-surface-variant">SUP-8832</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Meridian Logistics Corp</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">GLOBAL</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Freight</td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface text-right">$215.0M</td>
+<td class="px-4">
+<div class="inline-flex border border-status-error text-status-error font-label-caps text-label-caps px-[6px] py-[2px] rounded uppercase bg-transparent">Cancelled</div>
+</td>
+<td class="px-4 text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="h-[table-row-height] hover:bg-surface-container-lowest">
+<td class="px-4 font-code-sm text-code-sm text-on-surface-variant">SUP-5541</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Nippon Steel &amp; Fab</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">APAC</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Heavy Machinery</td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface text-right">$198.2M</td>
+<td class="px-4">
+<div class="inline-flex bg-status-active/10 text-status-active font-label-caps text-label-caps px-[6px] py-[2px] rounded uppercase">Active</div>
+</td>
+<td class="px-4 text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-gap-sm border-t border-outline-variant bg-[#F8FAFC] flex justify-between items-center font-body-sm text-on-surface-variant">
+<span>Showing 1-5 of 10</span>
+<div class="flex gap-1">
+<button class="w-[24px] h-[24px] flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low disabled:opacity-50"><span class="material-symbols-outlined" style="font-size: 14px;">chevron_left</span></button>
+<button class="w-[24px] h-[24px] flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low"><span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

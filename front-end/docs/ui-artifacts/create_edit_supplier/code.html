@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supplier Create/Edit - GEP SCM Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f5f2ff",
+                        "error": "#ba1a1a",
+                        "health-ok": "#10B981",
+                        "surface-variant": "#e3e1ef",
+                        "error-container": "#ffdad6",
+                        "outline": "#767588",
+                        "tertiary-container": "#b63600",
+                        "status-active": "#10B981",
+                        "secondary-container": "#dfdfe3",
+                        "primary-container": "#3e46ff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e9e6f5",
+                        "status-pending": "#F59E0B",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "secondary-fixed-dim": "#c6c6ca",
+                        "on-secondary-fixed-variant": "#45474a",
+                        "on-tertiary-container": "#ffd8cd",
+                        "on-secondary-container": "#616266",
+                        "status-inactive": "#6B7280",
+                        "surface-tint": "#373ffa",
+                        "on-secondary-fixed": "#1a1c1f",
+                        "outline-variant": "#c6c4d9",
+                        "tertiary": "#8d2800",
+                        "background": "#fbf8ff",
+                        "surface-dim": "#dad8e7",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "surface-container": "#efecfb",
+                        "status-fulfilled": "#14B8A6",
+                        "on-tertiary-fixed-variant": "#842500",
+                        "surface-container-highest": "#e3e1ef",
+                        "surface": "#fbf8ff",
+                        "on-background": "#1a1b25",
+                        "on-surface": "#1a1b25",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary": "#ffffff",
+                        "health-slow": "#F59E0B",
+                        "on-primary-fixed": "#01006e",
+                        "inverse-surface": "#2f2f3a",
+                        "status-submitted": "#3E46FF",
+                        "on-primary-container": "#dfdeff",
+                        "primary-fixed-dim": "#bfc2ff",
+                        "inverse-primary": "#bfc2ff",
+                        "secondary": "#5d5e62",
+                        "health-down": "#EF4444",
+                        "status-error": "#EF4444",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#1213e4",
+                        "secondary-fixed": "#e2e2e6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "primary": "#1d20e9",
+                        "on-surface-variant": "#454556",
+                        "inverse-on-surface": "#f1effe",
+                        "surface-bright": "#fbf8ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "sidebar-width": "240px",
+                        "gap-xs": "4px",
+                        "sidebar-collapsed": "64px",
+                        "gap-sm": "8px",
+                        "base": "4px",
+                        "table-row-height": "32px",
+                        "gap-md": "16px",
+                        "container-padding": "24px"
+                    },
+                    fontFamily: {
+                        "headline-sm": ["Roboto"],
+                        "body-sm": ["Roboto"],
+                        "display-kpi": ["Roboto"],
+                        "body-md": ["Roboto"],
+                        "label-caps": ["Roboto"],
+                        "code-sm": ["jetbrainsMono"],
+                        "table-header": ["Roboto"]
+                    },
+                    fontSize: {
+                        "headline-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }],
+                        "body-sm": ["11px", { lineHeight: "16px", fontWeight: "400" }],
+                        "display-kpi": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-md": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+                        "label-caps": ["10px", { lineHeight: "12px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "code-sm": ["11px", { lineHeight: "16px", fontWeight: "400" }],
+                        "table-header": ["11px", { lineHeight: "14px", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #fbf8ff; color: #1a1b25; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-background antialiased flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col pt-[56px] transition-all duration-300 bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-md text-body-md docked left-0 h-full w-[sidebar-width] border-r border-outline-variant dark:border-outline flat no shadows z-40 hidden md:flex">
+<div class="px-4 py-6 border-b border-outline-variant">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">SCM Mission Control</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Global Operations</p>
+<button class="mt-4 w-full bg-primary text-on-primary py-2 px-4 rounded-DEFAULT font-headline-sm text-headline-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Purchase Order
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary-container/10 dark:bg-primary-container/20 text-primary dark:text-primary-fixed border-l-4 border-primary px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all opacity-80 scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">factory</span>
+                        Suppliers
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+                        Orders
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                        Inventory
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                        Logistics
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                        Analytics
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-outline-variant">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                        Support
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+                        Sign Out
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md text-primary dark:text-primary-fixed font-headline-sm text-headline-sm docked full-width top-0 h-[56px] border-b border-outline-variant dark:border-outline flat no shadows md:pl-[264px] transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="font-display-kpi text-display-kpi font-bold text-primary dark:text-primary-fixed hidden md:block">GEP SCM Platform</div>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="h-[32px] pl-8 pr-3 bg-surface-container-low border border-outline-variant rounded-DEFAULT font-body-sm text-body-sm w-64 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[20px]">dark_mode</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-[56px] md:ml-[240px] p-container-padding transition-all duration-300 overflow-y-auto h-[calc(100vh-56px)] bg-background">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+<div>
+<h1 class="font-display-kpi text-display-kpi text-on-background">Create Supplier</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Enter details to onboard a new supplier into the network.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-DEFAULT text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-low transition-colors">Cancel</button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-DEFAULT font-headline-sm text-headline-sm hover:bg-primary/90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                    Save Supplier
+                </button>
+</div>
+</div>
+<!-- Form Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Primary Information -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Identity Section -->
+<section class="bg-surface border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 pb-2 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">badge</span>
+                        Identity
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Supplier Code</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="e.g., SUP-10492" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Tax ID / VAT</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Enter tax identifier" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Legal Entity Name <span class="text-error">*</span></label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Official registered name" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Display Name</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Known as (optional)" type="text"/>
+</div>
+</div>
+</section>
+<!-- Location Section -->
+<section class="bg-surface border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 pb-2 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">location_on</span>
+                        Location
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Country</label>
+<select class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>Select Country</option>
+<option>United States</option>
+<option>Germany</option>
+<option>China</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Region / State</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Address Line 1</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Address Line 2</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">City</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Postal Code</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Secondary Information -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Classification Section -->
+<section class="bg-surface border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 pb-2 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">category</span>
+                        Classification
+                    </h3>
+<div class="space-y-4">
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Primary Category</label>
+<select class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>Select Category</option>
+<option>Raw Materials</option>
+<option>IT Hardware</option>
+<option>Services</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Sub-Category</label>
+<select class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>Select Sub-Category</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Tags</label>
+<div class="w-full min-h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT p-1 flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-DEFAULT font-label-caps text-label-caps">
+                                    STRATEGIC
+                                    <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</span>
+<input class="flex-1 bg-transparent outline-none border-none font-body-sm text-body-sm px-1 min-w-[50px]" placeholder="Add tag..." type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Commercial Section -->
+<section class="bg-surface border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 pb-2 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
+                        Commercial
+                    </h3>
+<div class="space-y-4">
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Payment Terms</label>
+<select class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>Net 30</option>
+<option>Net 60</option>
+<option>Due on Receipt</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Default Currency</label>
+<select class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>USD - US Dollar</option>
+<option>EUR - Euro</option>
+<option>GBP - British Pound</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="bg-surface border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 pb-2 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">contact_mail</span>
+                        Primary Contact
+                    </h3>
+<div class="space-y-4">
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Full Name</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Email Address</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Phone Number</label>
+<input class="w-full h-[32px] bg-surface-container-low border border-outline-variant rounded-DEFAULT px-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="tel"/>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

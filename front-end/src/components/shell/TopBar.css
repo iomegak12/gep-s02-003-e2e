@@ -1,0 +1,94 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--topbar-height);
+  display: grid;
+  grid-template-columns: 1fr 480px 1fr;
+  align-items: center;
+  gap: var(--gap-md);
+  padding: 0 var(--gap-md);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.topbar__left { display: flex; align-items: center; gap: 12px; }
+.topbar__right { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+
+.topbar__icon-btn,
+.topbar__health {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  color: var(--text);
+  position: relative;
+}
+.topbar__icon-btn:hover,
+.topbar__health:hover { background: var(--surface-container); }
+
+.topbar__health-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--status-inactive);
+  border: 1.5px solid var(--surface);
+}
+.topbar__health-dot[data-status='ok']   { background: var(--health-ok); }
+.topbar__health-dot[data-status='slow'] { background: var(--health-slow); }
+.topbar__health-dot[data-status='down'] { background: var(--health-down); }
+.topbar__health-dot[data-status='unknown'] { background: var(--outline); }
+
+.topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+}
+.topbar__logo {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius);
+  background: var(--primary-container);
+  color: var(--on-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.topbar__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.topbar__search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.topbar__search input {
+  width: 100%;
+  height: 32px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  background: var(--surface-container-low);
+  padding: 0 12px 0 28px;
+  color: var(--text);
+}
+.topbar__search input:disabled { opacity: 0.7; cursor: not-allowed; }
+
+@media (max-width: 900px) {
+  .topbar { grid-template-columns: auto 1fr auto; }
+  .topbar__search { display: none; }
+}

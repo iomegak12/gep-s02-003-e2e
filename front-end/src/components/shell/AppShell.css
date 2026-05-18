@@ -1,0 +1,8 @@
+.shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--background); }
+.shell__body { display: flex; flex: 1; min-height: 0; }
+.shell__main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--container-padding);
+  overflow-x: auto;
+}

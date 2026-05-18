@@ -1,0 +1,152 @@
+/*
+ * Nexus SCM design tokens.
+ * Light palette is taken verbatim from docs/ui-artifacts/DESIGN.md.
+ * Dark palette mirrors the same token names, derived from the spec's
+ * "deep obsidian base #0B0C0E" guidance with a subtle blue-grey tint.
+ * Final dark hex values will be confirmed with the design team in Phase 8.
+ */
+
+:root {
+  /* ---- color: light ---- */
+  --surface: #fbf8ff;
+  --surface-dim: #dad8e7;
+  --surface-bright: #fbf8ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f5f2ff;
+  --surface-container: #efecfb;
+  --surface-container-high: #e9e6f5;
+  --surface-container-highest: #e3e1ef;
+  --on-surface: #1a1b25;
+  --on-surface-variant: #454556;
+  --inverse-surface: #2f2f3a;
+  --inverse-on-surface: #f1effe;
+  --outline: #767588;
+  --outline-variant: #c6c4d9;
+  --surface-tint: #373ffa;
+  --primary: #1d20e9;
+  --on-primary: #ffffff;
+  --primary-container: #3e46ff;
+  --on-primary-container: #dfdeff;
+  --inverse-primary: #bfc2ff;
+  --secondary: #5d5e62;
+  --on-secondary: #ffffff;
+  --secondary-container: #dfdfe3;
+  --on-secondary-container: #616266;
+  --tertiary: #8d2800;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #b63600;
+  --on-tertiary-container: #ffd8cd;
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  --background: #fbf8ff;
+  --on-background: #1a1b25;
+  --surface-variant: #e3e1ef;
+
+  /* status / health */
+  --status-active: #10b981;
+  --status-pending: #f59e0b;
+  --status-error: #ef4444;
+  --status-fulfilled: #14b8a6;
+  --status-submitted: #3e46ff;
+  --status-inactive: #6b7280;
+  --health-ok: #10b981;
+  --health-slow: #f59e0b;
+  --health-down: #ef4444;
+
+  /* ---- typography ---- */
+  --font-sans: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --fs-display-kpi: 24px;     --lh-display-kpi: 32px; --fw-display-kpi: 700; --ls-display-kpi: -0.02em;
+  --fs-headline-sm: 16px;     --lh-headline-sm: 24px; --fw-headline-sm: 600;
+  --fs-body-md: 12px;         --lh-body-md: 18px;     --fw-body-md: 400;
+  --fs-body-sm: 11px;         --lh-body-sm: 16px;     --fw-body-sm: 400;
+  --fs-label-caps: 10px;      --lh-label-caps: 12px;  --fw-label-caps: 700;  --ls-label-caps: 0.05em;
+  --fs-table-header: 11px;    --lh-table-header: 14px; --fw-table-header: 500;
+  --fs-code-sm: 11px;         --lh-code-sm: 16px;     --fw-code-sm: 400;
+
+  /* ---- radii ---- */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* ---- spacing ---- */
+  --space-base: 4px;
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 16px;
+  --container-padding: 24px;
+  --table-row-height: 32px;
+  --sidebar-width: 240px;
+  --sidebar-collapsed: 64px;
+  --topbar-height: 56px;
+
+  /* ---- elevation ---- */
+  --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--primary-container);
+
+  /* ---- semantic aliases (high-frequency in UI) ---- */
+  --hairline: var(--outline-variant);
+  --text: var(--on-surface);
+  --text-muted: var(--on-surface-variant);
+  --bg: var(--surface);
+  --bg-elevated: var(--surface-container-lowest);
+}
+
+[data-theme='dark'] {
+  /* Deep obsidian base with a faint blue-grey tonal layer-up. */
+  --surface: #0b0c0e;
+  --surface-dim: #0a0b0d;
+  --surface-bright: #1c1d22;
+  --surface-container-lowest: #07080a;
+  --surface-container-low: #111217;
+  --surface-container: #15161c;
+  --surface-container-high: #1b1c23;
+  --surface-container-highest: #22232c;
+  --on-surface: #ecebf5;
+  --on-surface-variant: #b6b5c4;
+  --inverse-surface: #ecebf5;
+  --inverse-on-surface: #1a1b25;
+  --outline: #6e6d80;
+  --outline-variant: #2b2c36;
+  --surface-tint: #6a70ff;
+  --primary: #bfc2ff;
+  --on-primary: #ffffff;
+  --primary-container: #3e46ff;
+  --on-primary-container: #ffffff;
+  --inverse-primary: #1d20e9;
+  --secondary: #c6c6ca;
+  --on-secondary: #2e3033;
+  --secondary-container: #44464a;
+  --on-secondary-container: #e2e2e6;
+  --tertiary: #ffb59e;
+  --on-tertiary: #581d00;
+  --tertiary-container: #842500;
+  --on-tertiary-container: #ffdbd0;
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+  --background: #0b0c0e;
+  --on-background: #ecebf5;
+  --surface-variant: #2b2c36;
+
+  /* status colors stay vibrant in both themes for legibility */
+  --status-active: #10b981;
+  --status-pending: #f59e0b;
+  --status-error: #ef4444;
+  --status-fulfilled: #14b8a6;
+  --status-submitted: #6a70ff;
+  --status-inactive: #9aa0aa;
+  --health-ok: #10b981;
+  --health-slow: #f59e0b;
+  --health-down: #ef4444;
+
+  --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--primary-container);
+}

@@ -1,0 +1,19 @@
+.dcg {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.dcg__card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 100ms ease, transform 80ms ease;
+}
+.dcg__card--clickable { cursor: pointer; }
+.dcg__card--clickable:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--outline-variant));
+}

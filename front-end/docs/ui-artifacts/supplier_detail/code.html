@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supplier Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#616266",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#5d5e62",
+                      "secondary-fixed-dim": "#c6c6ca",
+                      "inverse-primary": "#bfc2ff",
+                      "surface-tint": "#373ffa",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f5f2ff",
+                      "on-secondary-fixed-variant": "#45474a",
+                      "status-submitted": "#3E46FF",
+                      "surface-bright": "#fbf8ff",
+                      "primary-fixed-dim": "#bfc2ff",
+                      "health-down": "#EF4444",
+                      "tertiary-fixed": "#ffdbd0",
+                      "on-primary-fixed-variant": "#1213e4",
+                      "inverse-on-surface": "#f1effe",
+                      "outline": "#767588",
+                      "error": "#ba1a1a",
+                      "status-active": "#10B981",
+                      "surface-container-high": "#e9e6f5",
+                      "on-primary-fixed": "#01006e",
+                      "on-surface-variant": "#454556",
+                      "primary-container": "#3e46ff",
+                      "on-tertiary-fixed-variant": "#842500",
+                      "status-error": "#EF4444",
+                      "surface-container-highest": "#e3e1ef",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-container": "#dfdeff",
+                      "inverse-surface": "#2f2f3a",
+                      "tertiary": "#8d2800",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#3a0b00",
+                      "surface-variant": "#e3e1ef",
+                      "on-background": "#1a1b25",
+                      "background": "#fbf8ff",
+                      "status-fulfilled": "#14B8A6",
+                      "on-error": "#ffffff",
+                      "surface-container": "#efecfb",
+                      "secondary-container": "#dfdfe3",
+                      "on-tertiary-container": "#ffd8cd",
+                      "health-slow": "#F59E0B",
+                      "health-ok": "#10B981",
+                      "tertiary-container": "#b63600",
+                      "surface": "#fbf8ff",
+                      "outline-variant": "#c6c4d9",
+                      "status-pending": "#F59E0B",
+                      "surface-dim": "#dad8e7",
+                      "error-container": "#ffdad6",
+                      "status-inactive": "#6B7280",
+                      "primary": "#1d20e9",
+                      "secondary-fixed": "#e2e2e6",
+                      "on-secondary-fixed": "#1a1c1f",
+                      "primary-fixed": "#e0e0ff",
+                      "tertiary-fixed-dim": "#ffb59e",
+                      "on-surface": "#1a1b25"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "sidebar-collapsed": "64px",
+                      "gap-xs": "4px",
+                      "gap-sm": "8px",
+                      "base": "4px",
+                      "table-row-height": "32px",
+                      "gap-md": "16px",
+                      "container-padding": "24px"
+              },
+              "fontFamily": {
+                      "table-header": [
+                              "Roboto"
+                      ],
+                      "label-caps": [
+                              "Roboto"
+                      ],
+                      "headline-sm": [
+                              "Roboto"
+                      ],
+                      "code-sm": [
+                              "jetbrainsMono"
+                      ],
+                      "display-kpi": [
+                              "Roboto"
+                      ],
+                      "body-sm": [
+                              "Roboto"
+                      ],
+                      "body-md": [
+                              "Roboto"
+                      ]
+              },
+              "fontSize": {
+                      "table-header": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "10px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "code-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-kpi": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-x-hidden min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline full-width top-0 h-[56px]">
+<div class="flex items-center gap-gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary dark:text-primary-fixed">GEP SCM Platform</span>
+</div>
+<div class="flex items-center gap-gap-md">
+<div class="flex items-center gap-gap-xs text-primary dark:text-primary-fixed font-headline-sm text-headline-sm">
+<button aria-label="sensors" class="p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors rounded-full">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button aria-label="dark_mode" class="p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors rounded-full">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button aria-label="notifications" class="p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="account_circle" class="p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-[56px] transition-all duration-300 bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline docked left-0 h-full w-[sidebar-width] hidden md:flex z-40">
+<div class="p-container-padding border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-gap-sm mb-gap-sm">
+<img alt="GEP Logo" class="w-8 h-8 rounded-full bg-surface-container-high" data-alt="A clean, modern corporate logo placeholder for GEP in a crisp white setting. The logo sits perfectly centered in a small circular container, utilizing high-key lighting to maintain a pristine, utilitarian appearance consistent with modern SaaS interfaces. The colors are subtle and technical, primarily utilizing shades of white, light gray, and deep navy blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPwZJaStB0T0wVWkwj5fuuSiheJBpgzISOeOs-oMqj3kF9wu7D7ob8YpmNGqEjneDkQnyF9OjfcWolnBgutgpKgKGLy7Z5rvvek8bASoggx74B3R73N822pYDp7IIcN_5_EZs_3RUTZnm2zE-Ss6_cy0ZHlVI3s_00gDc6mXWLrKF1FIGOXmDF8zVQt3cx13zwQAthVBW_yBN0OkI5AW-uBQAe2Co_sYkHbB5KDpy7Au2cKJjQAS_asn7olSq8VIcl2Ku7Emh0Swzx"/>
+<div>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">SCM Mission Control</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Global Operations</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary font-body-md text-body-md font-medium py-2 rounded flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">add</span> New Purchase Order
+            </button>
+</div>
+<nav class="flex-1 overflow-y-auto py-gap-md flex flex-col gap-gap-xs">
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-gap-md bg-primary-container/10 dark:bg-primary-container/20 text-primary dark:text-primary-fixed border-l-4 border-primary px-4 py-3 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">factory</span> Suppliers
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">shopping_cart</span> Orders
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Inventory
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">local_shipping</span> Logistics
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">analytics</span> Analytics
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="border-t border-outline-variant dark:border-outline py-gap-sm flex flex-col gap-gap-xs">
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">help</span> Support
+            </a>
+<a class="flex items-center gap-gap-md text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pt-[56px] md:pl-[sidebar-width] min-h-screen pb-16 md:pb-0">
+<!-- Header Section -->
+<header class="bg-surface-container-lowest border-b border-outline-variant px-container-padding py-gap-md">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-gap-sm mb-gap-xs">
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Acme Manufacturing Corp</h1>
+<span class="font-label-caps text-label-caps uppercase bg-status-active/10 text-status-active px-2 py-1 rounded">ACTIVE</span>
+</div>
+<div class="flex items-center gap-gap-md text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">tag</span> SUP-8921-A</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">domain</span> Tier 1 Supplier</span>
+</div>
+</div>
+<div class="flex gap-gap-sm">
+<button class="border border-outline-variant text-on-surface hover:bg-surface-container-low px-4 py-2 rounded font-body-md text-body-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                    </button>
+<button class="bg-primary text-on-primary hover:opacity-90 px-4 py-2 rounded font-body-md text-body-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span> New Order
+                    </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-gap-md mt-gap-md border-b border-outline-variant">
+<button class="text-primary border-b-2 border-primary pb-2 font-headline-sm text-headline-sm px-2">Overview</button>
+<button class="text-on-surface-variant pb-2 font-headline-sm text-headline-sm px-2 hover:text-on-surface transition-colors">Scorecard</button>
+</div>
+</header>
+<div class="p-container-padding grid grid-cols-1 md:grid-cols-12 gap-gap-md">
+<!-- Left Column: Primary Details -->
+<div class="md:col-span-8 flex flex-col gap-gap-md">
+<!-- Identity & Classification -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-container-padding">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-gap-md border-b border-outline-variant pb-2">Identity &amp; Classification</h3>
+<div class="grid grid-cols-2 gap-gap-md">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Legal Name</p>
+<p class="font-body-md text-body-md text-on-surface">Acme Manufacturing Corporation LLC</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Tax ID / VAT</p>
+<p class="font-code-sm text-code-sm text-on-surface">US-987654321</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">DUNS Number</p>
+<p class="font-code-sm text-code-sm text-on-surface">12-345-6789</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Industry</p>
+<p class="font-body-md text-body-md text-on-surface">Precision Engineering</p>
+</div>
+</div>
+</section>
+<!-- Commercial Terms -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-container-padding">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-gap-md border-b border-outline-variant pb-2">Commercial Terms</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gap-md">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Payment Terms</p>
+<p class="font-body-md text-body-md text-on-surface">Net 45</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Currency</p>
+<p class="font-body-md text-body-md text-on-surface">USD ($)</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Incoterms</p>
+<p class="font-body-md text-body-md text-on-surface">FOB Shanghai</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Contract End</p>
+<p class="font-body-md text-body-md text-on-surface">Dec 31, 2025</p>
+</div>
+</div>
+</section>
+<!-- Scorecard Preview (Bento Box Style) -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-container-padding">
+<div class="flex justify-between items-center mb-gap-md border-b border-outline-variant pb-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Performance Scorecard</h3>
+<a class="text-primary font-body-sm text-body-sm flex items-center hover:underline" href="#">View Full <span class="material-symbols-outlined text-[16px] ml-1">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gap-md">
+<div class="bg-surface-container-low p-gap-md rounded border border-outline-variant">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Overall Rating</p>
+<div class="flex items-center gap-1 text-status-pending">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+<span class="font-display-kpi text-display-kpi text-on-surface ml-2">4.2</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-gap-md rounded border border-outline-variant">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">On-Time Delivery</p>
+<p class="font-display-kpi text-display-kpi text-status-active">94.8%</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 text-status-active flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> +1.2% this quarter</p>
+</div>
+<div class="bg-surface-container-low p-gap-md rounded border border-outline-variant">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Total Orders (YTD)</p>
+<p class="font-display-kpi text-display-kpi text-on-surface">1,420</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Secondary Details -->
+<div class="md:col-span-4 flex flex-col gap-gap-md">
+<!-- Location -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded">
+<div class="h-32 w-full bg-surface-container-highest border-b border-outline-variant relative overflow-hidden rounded-t">
+<div class="absolute inset-0 bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-[48px] opacity-50">map</span>
+</div>
+</div>
+<div class="p-container-padding">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-gap-sm">Primary Headquarters</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-gap-sm">
+                            100 Industrial Parkway<br/>
+                            Suite 400<br/>
+                            San Jose, CA 95134<br/>
+                            United States
+                        </p>
+<a class="text-primary font-body-sm text-body-sm flex items-center hover:underline" href="#"><span class="material-symbols-outlined text-[16px] mr-1">location_on</span> View on Map</a>
+</div>
+</section>
+<!-- Primary Contact -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-container-padding">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-gap-md border-b border-outline-variant pb-2">Primary Contact</h3>
+<div class="flex items-start gap-gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-sm text-headline-sm shrink-0">
+                            ES
+                        </div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Elena Sokolov</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">Key Account Manager</p>
+<div class="flex flex-col gap-1">
+<a class="font-body-md text-body-md text-on-surface flex items-center gap-2 hover:text-primary" href="mailto:elena.s@acmemfg.com"><span class="material-symbols-outlined text-[16px] text-outline">mail</span> elena.s@acmemfg.com</a>
+<a class="font-body-md text-body-md text-on-surface flex items-center gap-2 hover:text-primary" href="tel:+14085550199"><span class="material-symbols-outlined text-[16px] text-outline">call</span> +1 (408) 555-0199</a>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

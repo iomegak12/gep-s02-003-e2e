@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: gep-web
+    ports:
+      - "8080:80"
+    networks:
+      - gep-network
+    restart: unless-stopped
+
+networks:
+  gep-network:
+    external: true

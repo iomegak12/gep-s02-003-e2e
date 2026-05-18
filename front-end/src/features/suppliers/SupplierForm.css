@@ -1,0 +1,60 @@
+.sup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sup-form__banner {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  color: var(--on-error-container);
+  border: 1px solid color-mix(in srgb, var(--error) 35%, transparent);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: var(--fs-body-md);
+}
+
+.sup-form__section {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.sup-form__section-title { color: var(--text-muted); margin-bottom: 12px; }
+
+.sup-form__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.sup-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+/* tag input */
+.tag-input { display: flex; flex-direction: column; gap: 6px; }
+.tag-input__chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag-input__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-body-sm);
+  padding: 2px 6px 2px 8px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--primary-container) 14%, transparent);
+  color: var(--primary);
+}
+.tag-input__chip button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  color: inherit;
+  opacity: 0.7;
+}
+.tag-input__chip button:hover { opacity: 1; background: color-mix(in srgb, var(--primary) 18%, transparent); }

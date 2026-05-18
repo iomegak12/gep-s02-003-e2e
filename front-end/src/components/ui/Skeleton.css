@@ -1,0 +1,15 @@
+.sk {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    var(--surface-container) 0%,
+    var(--surface-container-high) 50%,
+    var(--surface-container) 100%
+  );
+  background-size: 200% 100%;
+  animation: skPulse 1.4s ease-in-out infinite;
+}
+@keyframes skPulse {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GEP SCM Platform - Create Purchase Order</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "secondary-container": "#dfdfe3",
+                            "surface-dim": "#dad8e7",
+                            "outline-variant": "#c6c4d9",
+                            "on-tertiary": "#ffffff",
+                            "tertiary-fixed": "#ffdbd0",
+                            "inverse-on-surface": "#f1effe",
+                            "tertiary-fixed-dim": "#ffb59e",
+                            "secondary": "#5d5e62",
+                            "on-secondary-fixed-variant": "#45474a",
+                            "on-error": "#ffffff",
+                            "status-error": "#EF4444",
+                            "status-fulfilled": "#14B8A6",
+                            "tertiary": "#8d2800",
+                            "on-tertiary-fixed": "#3a0b00",
+                            "on-background": "#1a1b25",
+                            "status-pending": "#F59E0B",
+                            "primary-container": "#3e46ff",
+                            "on-primary": "#ffffff",
+                            "error-container": "#ffdad6",
+                            "inverse-primary": "#bfc2ff",
+                            "on-error-container": "#93000a",
+                            "background": "#fbf8ff",
+                            "primary-fixed-dim": "#bfc2ff",
+                            "status-active": "#10B981",
+                            "secondary-fixed-dim": "#c6c6ca",
+                            "outline": "#767588",
+                            "health-slow": "#F59E0B",
+                            "secondary-fixed": "#e2e2e6",
+                            "primary-fixed": "#e0e0ff",
+                            "surface-container-low": "#f5f2ff",
+                            "health-ok": "#10B981",
+                            "tertiary-container": "#b63600",
+                            "inverse-surface": "#2f2f3a",
+                            "primary": "#1d20e9",
+                            "health-down": "#EF4444",
+                            "surface-variant": "#e3e1ef",
+                            "on-surface-variant": "#454556",
+                            "on-primary-container": "#dfdeff",
+                            "surface-container-highest": "#e3e1ef",
+                            "on-surface": "#1a1b25",
+                            "on-tertiary-fixed-variant": "#842500",
+                            "on-secondary-fixed": "#1a1c1f",
+                            "surface-container-high": "#e9e6f5",
+                            "on-primary-fixed-variant": "#1213e4",
+                            "surface-bright": "#fbf8ff",
+                            "on-secondary-container": "#616266",
+                            "surface-container": "#efecfb",
+                            "surface": "#fbf8ff",
+                            "surface-container-lowest": "#ffffff",
+                            "error": "#ba1a1a",
+                            "status-inactive": "#6B7280",
+                            "on-secondary": "#ffffff",
+                            "status-submitted": "#3E46FF",
+                            "surface-tint": "#373ffa",
+                            "on-tertiary-container": "#ffd8cd",
+                            "on-primary-fixed": "#01006e"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "sidebar-collapsed": "64px",
+                            "gap-md": "16px",
+                            "gap-sm": "8px",
+                            "base": "4px",
+                            "container-padding": "24px",
+                            "sidebar-width": "240px",
+                            "gap-xs": "4px",
+                            "table-row-height": "32px"
+                    },
+                    "fontFamily": {
+                            "headline-sm": ["Roboto"],
+                            "body-sm": ["Roboto"],
+                            "code-sm": ["JetBrains Mono"],
+                            "body-md": ["Roboto"],
+                            "table-header": ["Roboto"],
+                            "label-caps": ["Roboto"],
+                            "display-kpi": ["Roboto"]
+                    },
+                    "fontSize": {
+                            "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                            "body-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}],
+                            "code-sm": ["11px", {"lineHeight": "16px", "fontWeight": "400"}],
+                            "body-md": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                            "table-header": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                            "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                            "display-kpi": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Roboto', sans-serif; background-color: #fbf8ff; color: #1a1b25; }
+        /* Custom scrollbar for tables */
+        .table-container::-webkit-scrollbar { height: 6px; }
+        .table-container::-webkit-scrollbar-track { background: transparent; }
+        .table-container::-webkit-scrollbar-thumb { background-color: #c6c4d9; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar (Nav Shell Suppressed for Transactional/Wizard Flow) -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 backdrop-blur-md border-b border-outline-variant h-[56px]">
+<div class="flex items-center gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary">GEP SCM Platform</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="font-headline-sm text-headline-sm">New Purchase Order</span>
+</div>
+<div class="flex items-center gap-md text-primary">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center w-8 h-8 opacity-80 scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-[56px] p-container-padding overflow-y-auto w-full max-w-[1200px] mx-auto">
+<!-- Progress Indicator -->
+<div class="mb-gap-md px-container-padding py-gap-sm bg-surface-container-low rounded-DEFAULT border border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-status-active text-on-primary flex items-center justify-center font-body-sm text-body-sm"><span class="material-symbols-outlined text-[14px]">check</span></div>
+<span class="font-body-md text-body-md text-on-surface">1. Header Details</span>
+<div class="w-8 h-[1px] bg-outline-variant mx-gap-xs"></div>
+<div class="w-6 h-6 rounded-full bg-status-active text-on-primary flex items-center justify-center font-body-sm text-body-sm"><span class="material-symbols-outlined text-[14px]">check</span></div>
+<span class="font-body-md text-body-md text-on-surface">2. Line Items</span>
+<div class="w-8 h-[1px] bg-primary mx-gap-xs"></div>
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center font-body-sm text-body-sm font-bold border-2 border-primary">3</div>
+<span class="font-body-md text-body-md text-primary font-bold">3. Review &amp; Submit</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gap-md">
+<!-- Left Column: Summary Views -->
+<div class="lg:col-span-8 flex flex-col gap-gap-md">
+<!-- Supplier Summary Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-gap-md">
+<h2 class="font-headline-sm text-headline-sm mb-gap-sm border-b border-outline-variant pb-base text-on-surface">Supplier Summary</h2>
+<div class="grid grid-cols-2 gap-gap-md">
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Supplier Name</span>
+<span class="font-body-md text-body-md text-on-surface font-medium block">Acme Industrial Solutions</span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Supplier ID</span>
+<span class="font-code-sm text-code-sm text-on-surface block">SUP-99201-A</span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Contact</span>
+<span class="font-body-md text-body-md text-on-surface block">Jane Doe (j.doe@acme.com)</span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Contract Ref</span>
+<span class="font-code-sm text-code-sm text-primary block underline">CTR-2023-XYZ</span>
+</div>
+</div>
+</div>
+<!-- Line Items Read-Only Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT overflow-hidden flex flex-col">
+<h2 class="font-headline-sm text-headline-sm p-gap-md border-b border-outline-variant bg-surface-bright text-on-surface m-0">Line Items Review</h2>
+<div class="table-container overflow-x-auto w-full flex-1">
+<table class="w-full text-left border-collapse min-w-[700px]">
+<thead class="bg-[#F8FAFC] border-b border-outline-variant sticky top-0">
+<tr>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md w-12 text-center">#</th>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md">Item Description</th>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md w-24 text-right">Qty</th>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md w-24">UOM</th>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md w-32 text-right">Unit Price</th>
+<th class="font-table-header text-table-header text-on-surface-variant py-gap-sm px-gap-md w-32 text-right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low h-[32px]">
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md text-center">10</td>
+<td class="font-body-md text-body-md text-on-surface py-base px-gap-md">Industrial Bearing - Heavy Duty</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">500</td>
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md">EA</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">45.00</td>
+<td class="font-code-sm text-code-sm text-on-surface font-medium py-base px-gap-md text-right">22,500.00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low h-[32px]">
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md text-center">20</td>
+<td class="font-body-md text-body-md text-on-surface py-base px-gap-md">Hydraulic Fluid (Type V)</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">1,200</td>
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md">GAL</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">18.50</td>
+<td class="font-code-sm text-code-sm text-on-surface font-medium py-base px-gap-md text-right">22,200.00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low h-[32px]">
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md text-center">30</td>
+<td class="font-body-md text-body-md text-on-surface py-base px-gap-md">Control Valve Assembly</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">50</td>
+<td class="font-body-md text-body-md text-on-surface-variant py-base px-gap-md">EA</td>
+<td class="font-code-sm text-code-sm text-on-surface py-base px-gap-md text-right">350.00</td>
+<td class="font-code-sm text-code-sm text-on-surface font-medium py-base px-gap-md text-right">17,500.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-surface-container py-gap-sm px-gap-md border-t border-outline-variant flex justify-end">
+<div class="flex items-center gap-gap-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Est. Total:</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">62,200.00 USD</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Form Fields -->
+<div class="lg:col-span-4 flex flex-col gap-gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-gap-md flex flex-col gap-gap-md">
+<h2 class="font-headline-sm text-headline-sm border-b border-outline-variant pb-base text-on-surface">Fulfillment Details</h2>
+<!-- Currency & Terms -->
+<div class="grid grid-cols-2 gap-gap-md">
+<div class="flex flex-col gap-base">
+<label class="font-body-sm text-body-sm text-on-surface-variant uppercase">Currency (ISO)</label>
+<select class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>USD</option>
+<option>EUR</option>
+<option>GBP</option>
+<option>JPY</option>
+</select>
+</div>
+<div class="flex flex-col gap-base">
+<label class="font-body-sm text-body-sm text-on-surface-variant uppercase">Payment Terms</label>
+<select class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>Net 30</option>
+<option>Net 45</option>
+<option>Net 60</option>
+<option>Due on Receipt</option>
+</select>
+</div>
+</div>
+<!-- Delivery Date -->
+<div class="flex flex-col gap-base">
+<label class="font-body-sm text-body-sm text-on-surface-variant uppercase">Expected Delivery Date</label>
+<div class="relative">
+<input class="h-[32px] w-full border border-outline-variant rounded-DEFAULT pl-gap-sm pr-8 font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="date" value="2023-11-15"/>
+</div>
+</div>
+<!-- Delivery Address Block -->
+<div class="flex flex-col gap-base border-t border-outline-variant pt-gap-sm mt-gap-xs">
+<label class="font-body-sm text-body-sm text-on-surface-variant uppercase mb-base">Delivery Address</label>
+<div class="flex flex-col gap-gap-xs">
+<input class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Street Address 1" type="text" value="100 Logistics Way"/>
+<input class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Street Address 2 (Optional)" type="text"/>
+<div class="grid grid-cols-2 gap-gap-xs">
+<input class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="City" type="text" value="Chicago"/>
+<input class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="State/Province" type="text" value="IL"/>
+</div>
+<div class="grid grid-cols-2 gap-gap-xs">
+<input class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="ZIP/Postal Code" type="text" value="60601"/>
+<select class="h-[32px] border border-outline-variant rounded-DEFAULT px-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>United States</option>
+<option>Canada</option>
+<option>Mexico</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="flex flex-col gap-base border-t border-outline-variant pt-gap-sm mt-gap-xs">
+<label class="font-body-sm text-body-sm text-on-surface-variant uppercase">Notes to Supplier</label>
+<textarea class="border border-outline-variant rounded-DEFAULT p-gap-sm font-body-md text-body-md bg-surface text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none" placeholder="Enter any special instructions or notes..." rows="3">Please ensure partial shipments are clearly marked. Must use carrier code FRT-99.</textarea>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="border-t border-outline-variant bg-surface-container-lowest p-container-padding flex justify-between items-center z-40 mt-auto">
+<button class="px-gap-md h-[32px] border border-outline-variant rounded-DEFAULT font-body-md text-body-md text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            Back to Line Items
+        </button>
+<div class="flex gap-gap-md">
+<button class="px-gap-md h-[32px] border border-outline-variant rounded-DEFAULT font-body-md text-body-md text-on-surface hover:bg-surface-container-low transition-colors">
+                Save as Draft
+            </button>
+<button class="px-gap-md h-[32px] bg-primary text-on-primary rounded-DEFAULT font-body-md text-body-md font-medium hover:bg-surface-tint transition-colors shadow-sm flex items-center gap-sm">
+                Create PO
+                <span class="material-symbols-outlined text-[16px]">send</span>
+</button>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supplier List - GEP SCM Platform</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#454556",
+                    "status-error": "#EF4444",
+                    "on-primary-container": "#dfdeff",
+                    "health-ok": "#10B981",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#e2e2e6",
+                    "on-secondary-fixed": "#1a1c1f",
+                    "on-tertiary-container": "#ffd8cd",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c6c4d9",
+                    "health-slow": "#F59E0B",
+                    "tertiary-container": "#b63600",
+                    "on-primary-fixed": "#01006e",
+                    "surface-container-low": "#f5f2ff",
+                    "tertiary": "#8d2800",
+                    "surface-bright": "#fbf8ff",
+                    "tertiary-fixed-dim": "#ffb59e",
+                    "primary": "#1d20e9",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1a1b25",
+                    "surface": "#fbf8ff",
+                    "surface-container-high": "#e9e6f5",
+                    "on-primary-fixed-variant": "#1213e4",
+                    "surface-variant": "#e3e1ef",
+                    "status-pending": "#F59E0B",
+                    "surface-tint": "#373ffa",
+                    "on-error": "#ffffff",
+                    "outline": "#767588",
+                    "on-surface": "#1a1b25",
+                    "status-fulfilled": "#14B8A6",
+                    "primary-fixed": "#e0e0ff",
+                    "tertiary-fixed": "#ffdbd0",
+                    "surface-container": "#efecfb",
+                    "status-inactive": "#6B7280",
+                    "primary-container": "#3e46ff",
+                    "on-secondary-container": "#616266",
+                    "on-tertiary-fixed": "#3a0b00",
+                    "inverse-surface": "#2f2f3a",
+                    "health-down": "#EF4444",
+                    "on-secondary-fixed-variant": "#45474a",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#5d5e62",
+                    "inverse-on-surface": "#f1effe",
+                    "status-active": "#10B981",
+                    "status-submitted": "#3E46FF",
+                    "surface-dim": "#dad8e7",
+                    "secondary-fixed-dim": "#c6c6ca",
+                    "inverse-primary": "#bfc2ff",
+                    "surface-container-highest": "#e3e1ef",
+                    "on-primary": "#ffffff",
+                    "background": "#fbf8ff",
+                    "on-tertiary-fixed-variant": "#842500",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#dfdfe3",
+                    "primary-fixed-dim": "#bfc2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gap-md": "16px",
+                    "sidebar-width": "240px",
+                    "container-padding": "24px",
+                    "sidebar-collapsed": "64px",
+                    "table-row-height": "32px",
+                    "gap-sm": "8px",
+                    "base": "4px",
+                    "gap-xs": "4px"
+            },
+            "fontFamily": {
+                    "display-kpi": ["Roboto"],
+                    "code-sm": ["jetbrainsMono"],
+                    "label-caps": ["Roboto"],
+                    "headline-sm": ["Roboto"],
+                    "body-sm": ["Roboto"],
+                    "body-md": ["Roboto"],
+                    "table-header": ["Roboto"]
+            },
+            "fontSize": {
+                    "display-kpi": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "code-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                    "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                    "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                    "body-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                    "body-md": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                    "table-header": ["11px", { "lineHeight": "14px", "fontWeight": "500" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Material Symbols Outlined Configuration */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        
+        /* Custom Scrollbar for dense tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c6c4d9; /* outline-variant */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #767588; /* outline */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-[56px] bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-gap-md">
+<!-- Brand Logo Area -->
+<div class="font-display-kpi text-display-kpi font-bold text-primary dark:text-primary-fixed">GEP SCM</div>
+<!-- Service Health Indicator -->
+<div class="hidden md:flex items-center gap-gap-xs ml-4 px-2 py-1 rounded bg-surface-container-high border border-outline-variant cursor-pointer hover:bg-surface-container-highest transition-colors">
+<div class="w-2 h-2 rounded-full bg-health-ok shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">All Systems Nominal</span>
+</div>
+</div>
+<div class="flex items-center gap-gap-md">
+<!-- Search Bar (on_right configuration) -->
+<div class="relative hidden lg:block w-64">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-8 pl-8 pr-3 bg-surface border border-outline-variant rounded font-body-sm text-body-sm text-on-surface placeholder-on-surface-variant focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search orders, suppliers, POs..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[14px]">keyboard_command_key</span>
+</div>
+<!-- Trailing Icon Actions -->
+<div class="flex items-center gap-gap-xs text-primary dark:text-primary-fixed">
+<button class="p-1.5 rounded hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors opacity-80 scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors opacity-80 scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors opacity-80 scale-95 duration-150 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-status-error rounded-full border border-surface"></span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors opacity-80 scale-95 duration-150 ml-2">
+<span class="material-symbols-outlined" data-icon="account_circle" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col pt-[56px] w-[sidebar-width] bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline transition-all duration-300 z-40">
+<!-- Sidebar Header -->
+<div class="p-4 border-b border-outline-variant/50">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">SCM Mission Control</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Global Operations</div>
+<button class="mt-4 w-full h-8 flex items-center justify-center gap-2 bg-primary text-on-primary font-body-sm text-body-sm rounded hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                New Purchase Order
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active State: Suppliers -->
+<a class="flex items-center gap-3 bg-primary-container/10 dark:bg-primary-container/20 text-primary dark:text-primary-fixed border-l-4 border-primary px-4 py-3 translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="factory" style="font-variation-settings: 'FILL' 1;">factory</span>
+<span class="font-medium">Suppliers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="shopping_cart">shopping_cart</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="inventory_2">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="local_shipping">local_shipping</span>
+<span>Logistics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<!-- Sidebar Footer -->
+<div class="border-t border-outline-variant/50 p-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high rounded transition-colors text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high rounded transition-colors text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="md:pl-[240px] pt-[56px] min-h-screen flex flex-col">
+<div class="p-container-padding flex-1 flex flex-col gap-gap-md max-w-[1600px] w-full mx-auto">
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-4 rounded border border-outline-variant shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">factory</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Supplier Directory</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage and monitor global supplier network.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-wrap">
+<!-- Filter Chips -->
+<div class="flex items-center bg-surface-container-highest rounded border border-outline-variant p-0.5">
+<button class="px-3 h-7 rounded text-body-sm font-medium bg-surface shadow-sm border border-outline-variant text-on-surface">All</button>
+<button class="px-3 h-7 rounded text-body-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">Active</button>
+<button class="px-3 h-7 rounded text-body-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">Pending</button>
+<button class="px-3 h-7 rounded text-body-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">Critical</button>
+</div>
+<!-- Action Search -->
+<div class="relative w-48">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
+<input class="w-full h-8 pl-7 pr-2 bg-surface border border-outline-variant rounded font-body-sm text-body-sm text-on-surface placeholder-on-surface-variant focus:outline-none focus:border-primary transition-all" placeholder="Filter ID or Name..." type="text"/>
+</div>
+<!-- CTA -->
+<button class="h-8 px-4 bg-primary text-on-primary rounded font-body-sm text-body-sm font-medium hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                        Create Supplier
+                    </button>
+</div>
+</div>
+<!-- Dense Paginated Table Container (Level 1 Surface) -->
+<div class="bg-surface border border-outline-variant rounded flex flex-col flex-1 overflow-hidden shadow-sm">
+<!-- Table Wrapper for scroll -->
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="bg-surface-container border-b border-outline-variant sticky top-0 z-10">
+<tr class="h-table-row-height">
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase w-10 text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5" type="checkbox"/>
+</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium cursor-pointer hover:bg-surface-container-high group">
+<div class="flex items-center gap-1">Code <span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100">arrow_downward</span></div>
+</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium">Display Name</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium">Category</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium">Country</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium">Status</th>
+<th class="px-4 font-table-header text-table-header text-on-surface-variant uppercase tracking-wider font-medium text-right w-16">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group">
+<td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8921</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Acme Global Logistics</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Freight Forwarding</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5"><span class="w-4 h-3 bg-surface-container border border-outline-variant rounded-[1px] inline-block relative overflow-hidden"><div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNMCAwaDUxMnY1MTJIMHoiLz48cGF0aCBmaWxsPSIjZmYwMDAwIiBkPSJNMCAwaDI1NnY1MTJIMHoiLz48cGF0aCBmaWxsPSIjZmZkNzAwIiBkPSJNMjU2IDBoMjU2djUxMkgyNTZ6Ii8+PC9zdmc+')] bg-cover bg-center"></div></span> DEU</td>
+<td class="px-4">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span>
+</td>
+<td class="px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group bg-error-container/10">
+<td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8922</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Zenith Manufacturing</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Raw Materials (Steel)</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5"><span class="w-4 h-3 bg-surface-container border border-outline-variant rounded-[1px] inline-block relative overflow-hidden"><div class="absolute inset-0 bg-blue-600"></div><div class="absolute top-0 left-0 w-full h-1/3 bg-red-600"></div><div class="absolute bottom-0 left-0 w-full h-1/3 bg-white"></div></span> NLD</td>
+<td class="px-4">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-transparent text-status-error font-label-caps text-label-caps uppercase tracking-wider border border-status-error flex gap-1"><span class="material-symbols-outlined text-[10px]">warning</span> Blocked</span>
+</td>
+<td class="px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group">
+<td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8925</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Nexus Electronics Ltd.</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Semiconductors</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5"><span class="w-4 h-3 bg-surface-container border border-outline-variant rounded-[1px] inline-block relative overflow-hidden"><div class="absolute inset-0 bg-red-600"></div><div class="absolute top-0 left-0 w-1/3 h-full bg-yellow-400"></div></span> TWN</td>
+<td class="px-4">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span>
+</td>
+<td class="px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group">
+<td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td>
+<td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8930</td>
+<td class="px-4 font-body-md text-body-md text-on-surface font-medium">Oasis Packaging Inc.</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Packaging Materials</td>
+<td class="px-4 font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5"><span class="w-4 h-3 bg-surface-container border border-outline-variant rounded-[1px] inline-block relative overflow-hidden"><div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjYmIyMjMzIiBkPSJNMCAwaDUxMnY1MTJIMHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQ5LjQgMTA1LjRsMjE0IDMwNkwxMDUuNCAzNjN6Ii8+PC9zdmc+')] bg-cover bg-center"></div></span> USA</td>
+<td class="px-4">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-pending/10 text-status-pending font-label-caps text-label-caps uppercase tracking-wider border border-status-pending/20 flex gap-1"><span class="material-symbols-outlined text-[10px] animate-spin">sync</span> Onboarding</span>
+</td>
+<td class="px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group text-on-surface-variant/70">
+<td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td>
+<td class="px-4 font-code-sm text-code-sm">SUP-8911</td>
+<td class="px-4 font-body-md text-body-md font-medium">Vertex Chemicals</td>
+<td class="px-4 font-body-sm text-body-sm">Industrial Chemicals</td>
+<td class="px-4 font-body-sm text-body-sm flex items-center gap-1.5"><span class="w-4 h-3 bg-surface-container border border-outline-variant rounded-[1px] inline-block relative overflow-hidden"><div class="absolute inset-0 bg-white"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-red-600 rounded-full"></div></span> JPN</td>
+<td class="px-4">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider border border-outline-variant">Inactive</span>
+</td>
+<td class="px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Rows 6-12 Generated to show density -->
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8940</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Global Fasteners Co.</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Hardware</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">GBR</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8941</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Meridian Plastics</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Polymers</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">CAN</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8945</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Precision Machining LLC</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Custom Parts</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">USA</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-pending/10 text-status-pending font-label-caps text-label-caps uppercase tracking-wider border border-status-pending/20">Review</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8950</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Aero Dynamics Supply</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Aviation Spares</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">FRA</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8952</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Titanium Forgings Inc</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Raw Materials</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">IND</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group bg-error-container/10"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8960</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Cobalt Mining Corp</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Raw Materials</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">ZAF</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-transparent text-status-error font-label-caps text-label-caps uppercase tracking-wider border border-status-error">Audit Fail</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+<tr class="h-table-row-height hover:bg-surface-container-low transition-colors group"><td class="px-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/></td><td class="px-4 font-code-sm text-code-sm text-on-surface">SUP-8965</td><td class="px-4 font-body-md text-body-md text-on-surface font-medium">Lithium Energy Solutions</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">Batteries</td><td class="px-4 font-body-sm text-body-sm text-on-surface-variant">AUS</td><td class="px-4"><span class="inline-flex items-center px-1.5 py-0.5 rounded bg-status-active/10 text-status-active font-label-caps text-label-caps uppercase tracking-wider border border-status-active/20">Active</span></td><td class="px-4 text-right"><button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">more_vert</span></button></td></tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="h-[40px] flex items-center justify-between px-4 bg-surface-container-lowest border-t border-outline-variant text-on-surface-variant">
+<div class="flex items-center gap-4">
+<span class="font-body-sm text-body-sm">Showing 1-12 of 3,421</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span>Rows per page:</span>
+<select class="h-6 py-0 pl-2 pr-6 border-outline-variant bg-surface rounded text-body-sm focus:ring-primary focus:border-primary">
+<option>10</option>
+<option selected="">20</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container-high transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">first_page</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container-high transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="font-body-sm text-body-sm px-2 font-medium text-on-surface">Page 1 of 172</span>
+<button class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">last_page</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom margin spacer -->
+<div class="h-4"></div>
+</div>
+</main>
+</body></html>

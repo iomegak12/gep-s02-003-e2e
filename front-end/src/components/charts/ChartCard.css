@@ -1,0 +1,17 @@
+.chart-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chart-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--gap-md);
+}
+.chart-card__actions { display: flex; gap: var(--gap-sm); }
+.chart-card__body { width: 100%; }

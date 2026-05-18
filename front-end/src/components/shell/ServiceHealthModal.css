@@ -1,0 +1,29 @@
+.health-list { display: flex; flex-direction: column; gap: 4px; }
+.health-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  background: var(--surface-container-low);
+}
+.health-row__main { display: flex; gap: 12px; align-items: center; }
+.health-row__text { display: flex; flex-direction: column; gap: 2px; }
+
+.health-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--status-inactive);
+  display: inline-block;
+}
+.health-dot[data-status='ok']   { background: var(--health-ok); }
+.health-dot[data-status='slow'] { background: var(--health-slow); }
+.health-dot[data-status='down'] { background: var(--health-down); animation: healthPulse 1.2s ease-in-out infinite; }
+.health-dot[data-status='loading'] { background: var(--outline); }
+
+@keyframes healthPulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--health-down) 60%, transparent); }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}

@@ -1,0 +1,9 @@
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label {
+  font-size: var(--fs-body-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.field__required { color: var(--error); }
+.field__hint  { font-size: var(--fs-body-sm); color: var(--text-muted); }
+.field__error { font-size: var(--fs-body-sm); color: var(--error); }

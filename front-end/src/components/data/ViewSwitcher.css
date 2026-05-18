@@ -1,0 +1,21 @@
+.view-switcher {
+  display: inline-flex;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-container-low);
+}
+.view-switcher__btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+.view-switcher__btn + .view-switcher__btn { border-left: 1px solid var(--outline-variant); }
+.view-switcher__btn:hover { background: var(--surface-container); color: var(--text); }
+.view-switcher__btn.is-active {
+  background: color-mix(in srgb, var(--primary-container) 14%, transparent);
+  color: var(--primary);
+}

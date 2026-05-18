@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - GEP SCM Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#454556",
+                      "status-error": "#EF4444",
+                      "on-primary-container": "#dfdeff",
+                      "health-ok": "#10B981",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#e2e2e6",
+                      "on-secondary-fixed": "#1a1c1f",
+                      "on-tertiary-container": "#ffd8cd",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c6c4d9",
+                      "health-slow": "#F59E0B",
+                      "tertiary-container": "#b63600",
+                      "on-primary-fixed": "#01006e",
+                      "surface-container-low": "#f5f2ff",
+                      "tertiary": "#8d2800",
+                      "surface-bright": "#fbf8ff",
+                      "tertiary-fixed-dim": "#ffb59e",
+                      "primary": "#1d20e9",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#1a1b25",
+                      "surface": "#fbf8ff",
+                      "surface-container-high": "#e9e6f5",
+                      "on-primary-fixed-variant": "#1213e4",
+                      "surface-variant": "#e3e1ef",
+                      "status-pending": "#F59E0B",
+                      "surface-tint": "#373ffa",
+                      "on-error": "#ffffff",
+                      "outline": "#767588",
+                      "on-surface": "#1a1b25",
+                      "status-fulfilled": "#14B8A6",
+                      "primary-fixed": "#e0e0ff",
+                      "tertiary-fixed": "#ffdbd0",
+                      "surface-container": "#efecfb",
+                      "status-inactive": "#6B7280",
+                      "primary-container": "#3e46ff",
+                      "on-secondary-container": "#616266",
+                      "on-tertiary-fixed": "#3a0b00",
+                      "inverse-surface": "#2f2f3a",
+                      "health-down": "#EF4444",
+                      "on-secondary-fixed-variant": "#45474a",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#5d5e62",
+                      "inverse-on-surface": "#f1effe",
+                      "status-active": "#10B981",
+                      "status-submitted": "#3E46FF",
+                      "surface-dim": "#dad8e7",
+                      "secondary-fixed-dim": "#c6c6ca",
+                      "inverse-primary": "#bfc2ff",
+                      "surface-container-highest": "#e3e1ef",
+                      "on-primary": "#ffffff",
+                      "background": "#fbf8ff",
+                      "on-tertiary-fixed-variant": "#842500",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#dfdfe3",
+                      "primary-fixed-dim": "#bfc2ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gap-md": "16px",
+                      "sidebar-width": "240px",
+                      "container-padding": "24px",
+                      "sidebar-collapsed": "64px",
+                      "table-row-height": "32px",
+                      "gap-sm": "8px",
+                      "base": "4px",
+                      "gap-xs": "4px"
+              },
+              "fontFamily": {
+                      "display-kpi": [
+                              "Roboto"
+                      ],
+                      "code-sm": [
+                              "jetbrainsMono"
+                      ],
+                      "label-caps": [
+                              "Roboto"
+                      ],
+                      "headline-sm": [
+                              "Roboto"
+                      ],
+                      "body-sm": [
+                              "Roboto"
+                      ],
+                      "body-md": [
+                              "Roboto"
+                      ],
+                      "table-header": [
+                              "Roboto"
+                      ]
+              },
+              "fontSize": {
+                      "display-kpi": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "code-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "10px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "table-header": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-container-low min-h-screen flex flex-col items-center justify-center relative font-sans text-on-surface">
+<!-- Background Pattern/Texture (Subtle SaaS style) -->
+<div class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, #c6c4d9 1px, transparent 0); background-size: 24px 24px;"></div>
+<!-- Main Content Container -->
+<main class="w-full max-w-[360px] px-4 relative z-10">
+<!-- Brand Header -->
+<div class="text-center mb-6">
+<div class="flex items-center justify-center mb-2 text-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+</div>
+<h1 class="font-display-kpi text-display-kpi text-primary">GEP SCM Platform</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Mission Control Authorization</p>
+</div>
+<!-- Login Card -->
+<div class="bg-surface border border-outline-variant rounded-lg p-container-padding shadow-sm w-full">
+<form class="flex flex-col gap-gap-md">
+<!-- Email Field Group -->
+<div>
+<label class="block font-body-md text-body-md text-on-surface mb-gap-xs" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[16px] text-outline">mail</span>
+<input class="w-full h-table-row-height pl-8 pr-2 border border-outline-variant rounded font-body-sm text-body-sm text-on-surface bg-surface-bright focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-outline-variant" id="email" placeholder="user@company.com" type="email"/>
+</div>
+</div>
+<!-- Password Field Group -->
+<div>
+<div class="flex items-center justify-between mb-gap-xs">
+<label class="block font-body-md text-body-md text-on-surface" for="password">Password</label>
+<a class="font-body-sm text-body-sm text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[16px] text-outline">lock</span>
+<input class="w-full h-table-row-height pl-8 pr-2 border border-outline-variant rounded font-body-sm text-body-sm text-on-surface bg-surface-bright focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Remember Me Checkbox -->
+<div class="flex items-center mt-gap-xs">
+<input class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary bg-surface-bright cursor-pointer" id="remember-me" type="checkbox"/>
+<label class="ml-2 block font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="remember-me">Stay signed in for 30 days</label>
+</div>
+<!-- Primary Submit Action -->
+<button class="w-full h-table-row-height mt-2 bg-primary text-on-primary rounded font-headline-sm text-headline-sm flex items-center justify-center hover:bg-on-primary-fixed-variant transition-colors" type="submit">
+                    Sign In
+                </button>
+</form>
+<!-- SSO Divider -->
+<div class="relative mt-5 mb-5">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-surface font-body-sm text-body-sm text-on-surface-variant">Enterprise Login</span>
+</div>
+</div>
+<!-- SSO Button -->
+<button class="w-full h-table-row-height bg-surface-bright border border-outline-variant text-on-surface rounded font-body-md text-body-md font-medium flex items-center justify-center hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined mr-2 text-[16px]">domain</span>
+                Continue with SSO
+            </button>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="absolute bottom-6 w-full text-center z-10">
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-center gap-2">
+<span>© 2024 GEP SCM Platform.</span>
+<span class="text-outline-variant">•</span>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<span class="text-outline-variant">•</span>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
+</body></html>

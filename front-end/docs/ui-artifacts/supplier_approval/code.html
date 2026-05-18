@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supplier Approval Queue - GEP SCM Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#616266",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#5d5e62",
+                      "secondary-fixed-dim": "#c6c6ca",
+                      "inverse-primary": "#bfc2ff",
+                      "surface-tint": "#373ffa",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f5f2ff",
+                      "on-secondary-fixed-variant": "#45474a",
+                      "status-submitted": "#3E46FF",
+                      "surface-bright": "#fbf8ff",
+                      "primary-fixed-dim": "#bfc2ff",
+                      "health-down": "#EF4444",
+                      "tertiary-fixed": "#ffdbd0",
+                      "on-primary-fixed-variant": "#1213e4",
+                      "inverse-on-surface": "#f1effe",
+                      "outline": "#767588",
+                      "error": "#ba1a1a",
+                      "status-active": "#10B981",
+                      "surface-container-high": "#e9e6f5",
+                      "on-primary-fixed": "#01006e",
+                      "on-surface-variant": "#454556",
+                      "primary-container": "#3e46ff",
+                      "on-tertiary-fixed-variant": "#842500",
+                      "status-error": "#EF4444",
+                      "surface-container-highest": "#e3e1ef",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-container": "#dfdeff",
+                      "inverse-surface": "#2f2f3a",
+                      "tertiary": "#8d2800",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#3a0b00",
+                      "surface-variant": "#e3e1ef",
+                      "on-background": "#1a1b25",
+                      "background": "#fbf8ff",
+                      "status-fulfilled": "#14B8A6",
+                      "on-error": "#ffffff",
+                      "surface-container": "#efecfb",
+                      "secondary-container": "#dfdfe3",
+                      "on-tertiary-container": "#ffd8cd",
+                      "health-slow": "#F59E0B",
+                      "health-ok": "#10B981",
+                      "tertiary-container": "#b63600",
+                      "surface": "#fbf8ff",
+                      "outline-variant": "#c6c4d9",
+                      "status-pending": "#F59E0B",
+                      "surface-dim": "#dad8e7",
+                      "error-container": "#ffdad6",
+                      "status-inactive": "#6B7280",
+                      "primary": "#1d20e9",
+                      "secondary-fixed": "#e2e2e6",
+                      "on-secondary-fixed": "#1a1c1f",
+                      "primary-fixed": "#e0e0ff",
+                      "tertiary-fixed-dim": "#ffb59e",
+                      "on-surface": "#1a1b25"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "sidebar-collapsed": "64px",
+                      "gap-xs": "4px",
+                      "gap-sm": "8px",
+                      "base": "4px",
+                      "table-row-height": "32px",
+                      "gap-md": "16px",
+                      "container-padding": "24px"
+              },
+              "fontFamily": {
+                      "table-header": [
+                              "Roboto"
+                      ],
+                      "label-caps": [
+                              "Roboto"
+                      ],
+                      "headline-sm": [
+                              "Roboto"
+                      ],
+                      "code-sm": [
+                              "jetbrainsMono"
+                      ],
+                      "display-kpi": [
+                              "Roboto"
+                      ],
+                      "body-sm": [
+                              "Roboto"
+                      ],
+                      "body-md": [
+                              "Roboto"
+                      ]
+              },
+              "fontSize": {
+                      "table-header": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "10px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "code-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-kpi": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased m-0 p-0 overflow-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md h-[56px] border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary dark:text-primary-fixed">GEP SCM Platform</span>
+</div>
+<div class="flex items-center gap-gap-md">
+<div class="relative hidden md:flex items-center h-8 rounded border border-outline-variant bg-surface px-2 w-64">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant mr-2">search</span>
+<input class="w-full bg-transparent border-none p-0 text-body-sm text-on-surface focus:ring-0 placeholder:text-on-surface-variant/50" placeholder="Search suppliers..." type="text"/>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors text-on-surface-variant dark:text-on-surface-variant relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col pt-[56px] transition-all duration-300 w-[sidebar-width] border-r border-outline-variant dark:border-outline bg-surface dark:bg-surface-dim z-40 hidden md:flex">
+<div class="p-4 border-b border-outline-variant flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">SCM Mission Control</span>
+<span class="text-body-sm text-on-surface-variant">Global Operations</span>
+</div>
+<div class="p-4">
+<button class="w-full bg-primary text-on-primary py-2 rounded font-body-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                New Purchase Order
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary-container/10 dark:bg-primary-container/20 text-primary dark:text-primary-fixed border-l-4 border-primary px-4 py-3 transition-all opacity-80 scale-95 duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">factory</span>
+<span class="font-body-md text-body-md font-medium">Suppliers</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+<span class="font-body-md text-body-md">Logistics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant py-2">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-body-md text-body-md">Sign Out</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-[56px] md:ml-[sidebar-width] h-screen overflow-y-auto bg-surface-bright flex flex-col p-container-padding">
+<div class="flex justify-between items-center mb-gap-md">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Supplier Approval Queue</h1>
+<p class="text-body-sm text-on-surface-variant mt-1">Review and manage pending supplier registrations.</p>
+</div>
+<div class="flex gap-gap-sm">
+<button class="flex items-center gap-1 px-3 py-1.5 border border-outline-variant rounded bg-surface hover:bg-surface-container-low transition-colors text-body-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-1 px-3 py-1.5 border border-outline-variant rounded bg-surface hover:bg-surface-container-low transition-colors text-body-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                    Export
+                </button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="flex-1 bg-surface border border-outline-variant rounded flex flex-col overflow-hidden">
+<!-- Table Header -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] bg-[#F8FAFC] border-b border-outline-variant h-[32px] items-center px-4 sticky top-0 z-10">
+<div class="font-table-header text-table-header text-on-surface-variant">CODE</div>
+<div class="font-table-header text-table-header text-on-surface-variant">DISPLAY NAME</div>
+<div class="font-table-header text-table-header text-on-surface-variant">CATEGORY</div>
+<div class="font-table-header text-table-header text-on-surface-variant">COUNTRY</div>
+<div class="font-table-header text-table-header text-on-surface-variant text-right">ACTIONS</div>
+</div>
+<!-- Table Body -->
+<div class="flex-1 overflow-y-auto">
+<!-- Row 1 -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] border-b border-outline-variant h-[32px] items-center px-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="font-code-sm text-code-sm text-on-surface">SUP-8921</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate pr-2">Apex Manufacturing Logistics GmbH</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate pr-2">Industrial Components</div>
+<div class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+                        DEU
+                    </div>
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-status-active/10 text-status-active transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-error/10 text-error transition-colors" title="Blacklist">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] border-b border-outline-variant h-[32px] items-center px-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="font-code-sm text-code-sm text-on-surface">SUP-8922</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate pr-2">Global Tech Supplies Ltd.</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate pr-2">IT Hardware</div>
+<div class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+                        GBR
+                    </div>
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-status-active/10 text-status-active transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-error/10 text-error transition-colors" title="Blacklist">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] border-b border-outline-variant h-[32px] items-center px-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="font-code-sm text-code-sm text-on-surface">SUP-8923</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate pr-2">Nippon Steel &amp; Logistics Corp.</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate pr-2">Raw Materials</div>
+<div class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+                        JPN
+                    </div>
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-status-active/10 text-status-active transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-error/10 text-error transition-colors" title="Blacklist">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] border-b border-outline-variant h-[32px] items-center px-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="font-code-sm text-code-sm text-on-surface">SUP-8924</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate pr-2">Nordic Timber Distributors A/S</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate pr-2">Lumber &amp; Wood</div>
+<div class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+                        DNK
+                    </div>
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-status-active/10 text-status-active transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-error/10 text-error transition-colors" title="Blacklist">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+</button>
+</div>
+</div>
+<!-- Row 5 -->
+<div class="grid grid-cols-[100px_2fr_1.5fr_1fr_120px] border-b border-outline-variant h-[32px] items-center px-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="font-code-sm text-code-sm text-on-surface">SUP-8925</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate pr-2">Pacific Rim Electronics</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate pr-2">Semiconductors</div>
+<div class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">public</span>
+                        KOR
+                    </div>
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-status-active/10 text-status-active transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-high text-on-surface-variant transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-error/10 text-error transition-colors" title="Blacklist">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination Bar -->
+<div class="h-[40px] border-t border-outline-variant bg-surface flex items-center justify-between px-4">
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                    Showing 1-5 of 24 PENDING_APPROVAL
+                </div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-low text-on-surface-variant opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container-low text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

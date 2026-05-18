@@ -1,0 +1,63 @@
+.dt {
+  position: relative;
+  overflow: auto;
+  background: var(--surface-container-lowest);
+  border-top: 1px solid var(--outline-variant);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.dt__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--fs-body-md);
+  display: block;
+}
+
+.dt__thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--surface-container-low);
+  display: block;
+}
+.dt__thead tr {
+  display: flex;
+  width: 100%;
+}
+.dt__thead th {
+  flex: 1;
+  text-align: left;
+  font-size: var(--fs-table-header);
+  font-weight: var(--fw-table-header);
+  line-height: var(--lh-table-header);
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--outline-variant);
+  white-space: nowrap;
+  user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dt__th-inner { display: inline-flex; align-items: center; gap: 4px; }
+
+.dt__tbody { position: relative; display: block; }
+.dt__row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--outline-variant);
+  transition: background-color 80ms ease;
+  cursor: pointer;
+  width: 100%;
+}
+.dt__row:hover { background: var(--surface-container-low); }
+.dt__row td {
+  flex: 1;
+  padding: 6px 12px;
+  height: var(--table-row-height);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}

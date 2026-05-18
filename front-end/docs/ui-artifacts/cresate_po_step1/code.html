@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GEP SCM Platform - PO Create Wizard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#dfdfe3",
+                        "surface-dim": "#dad8e7",
+                        "outline-variant": "#c6c4d9",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbd0",
+                        "inverse-on-surface": "#f1effe",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "secondary": "#5d5e62",
+                        "on-secondary-fixed-variant": "#45474a",
+                        "on-error": "#ffffff",
+                        "status-error": "#EF4444",
+                        "status-fulfilled": "#14B8A6",
+                        "tertiary": "#8d2800",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "on-background": "#1a1b25",
+                        "status-pending": "#F59E0B",
+                        "primary-container": "#3e46ff",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#bfc2ff",
+                        "on-error-container": "#93000a",
+                        "background": "#fbf8ff",
+                        "primary-fixed-dim": "#bfc2ff",
+                        "status-active": "#10B981",
+                        "secondary-fixed-dim": "#c6c6ca",
+                        "outline": "#767588",
+                        "health-slow": "#F59E0B",
+                        "secondary-fixed": "#e2e2e6",
+                        "primary-fixed": "#e0e0ff",
+                        "surface-container-low": "#f5f2ff",
+                        "health-ok": "#10B981",
+                        "tertiary-container": "#b63600",
+                        "inverse-surface": "#2f2f3a",
+                        "primary": "#1d20e9",
+                        "health-down": "#EF4444",
+                        "surface-variant": "#e3e1ef",
+                        "on-surface-variant": "#454556",
+                        "on-primary-container": "#dfdeff",
+                        "surface-container-highest": "#e3e1ef",
+                        "on-surface": "#1a1b25",
+                        "on-tertiary-fixed-variant": "#842500",
+                        "on-secondary-fixed": "#1a1c1f",
+                        "surface-container-high": "#e9e6f5",
+                        "on-primary-fixed-variant": "#1213e4",
+                        "surface-bright": "#fbf8ff",
+                        "on-secondary-container": "#616266",
+                        "surface-container": "#efecfb",
+                        "surface": "#fbf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "status-inactive": "#6B7280",
+                        "on-secondary": "#ffffff",
+                        "status-submitted": "#3E46FF",
+                        "surface-tint": "#373ffa",
+                        "on-tertiary-container": "#ffd8cd",
+                        "on-primary-fixed": "#01006e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-collapsed": "64px",
+                        "gap-md": "16px",
+                        "gap-sm": "8px",
+                        "base": "4px",
+                        "container-padding": "24px",
+                        "sidebar-width": "240px",
+                        "gap-xs": "4px",
+                        "table-row-height": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Roboto"],
+                        "body-sm": ["Roboto"],
+                        "code-sm": ["jetbrainsMono"],
+                        "body-md": ["Roboto"],
+                        "table-header": ["Roboto"],
+                        "label-caps": ["Roboto"],
+                        "display-kpi": ["Roboto"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "code-sm": ["11px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "table-header": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-kpi": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md h-screen w-full overflow-hidden flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline h-[56px]">
+<div class="flex items-center gap-md">
+<span class="font-display-kpi text-display-kpi font-bold text-primary dark:text-primary-fixed">GEP SCM Platform</span>
+</div>
+<div class="flex flex-1 justify-end items-center gap-md">
+<!-- Global Search - Suppressed for Wizard context, but TopNavBar structure maintained -->
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer opacity-80 scale-95 duration-150">sensors</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer">dark_mode</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col pt-[56px] transition-all duration-300 bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline w-[sidebar-width] hidden md:flex">
+<!-- Sidebar Header (Contextual) -->
+<div class="px-4 py-6 border-b border-outline-variant flex flex-col gap-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">SCM Mission Control</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Global Operations</span>
+</div>
+<!-- Sidebar Actions -->
+<div class="px-4 py-4">
+<button class="w-full bg-primary text-on-primary rounded font-table-header text-table-header py-2 px-4 flex items-center justify-center gap-xs hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                New Purchase Order
+            </button>
+</div>
+<!-- Sidebar Links -->
+<div class="flex-1 overflow-y-auto flex flex-col mt-2">
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">factory</span>
+<span>Suppliers</span>
+</a>
+<a class="flex items-center gap-sm bg-primary-container/10 dark:bg-primary-container/20 text-primary dark:text-primary-fixed border-l-4 border-primary px-4 py-3 translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>Logistics</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant dark:text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<!-- Sidebar Footer -->
+<div class="mt-auto border-t border-outline-variant flex flex-col py-2">
+<a class="flex items-center gap-sm text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant px-4 py-3 hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 md:ml-[240px] mt-[56px] bg-background overflow-y-auto flex flex-col items-center justify-start p-container-padding">
+<!-- Wizard Container -->
+<div class="w-full max-w-4xl bg-surface border border-outline-variant rounded-lg flex flex-col shadow-sm">
+<!-- Wizard Header / Progress -->
+<div class="px-container-padding py-6 border-b border-outline-variant bg-surface-bright rounded-t-lg">
+<h1 class="font-headline-sm text-headline-sm text-on-surface mb-6">Create Purchase Order</h1>
+<!-- Progress Indicator -->
+<div class="flex items-center justify-between relative">
+<!-- Connecting Lines -->
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<!-- Step 1 (Active) -->
+<div class="flex flex-col items-center bg-surface-bright px-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-table-header text-table-header border-2 border-surface-bright z-10">1</div>
+<span class="font-table-header text-table-header text-primary mt-2">Choose Supplier</span>
+</div>
+<!-- Step 2 (Inactive) -->
+<div class="flex flex-col items-center bg-surface-bright px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-table-header text-table-header border-2 border-surface-bright z-10">2</div>
+<span class="font-table-header text-table-header text-on-surface-variant mt-2">Order Details</span>
+</div>
+<!-- Step 3 (Inactive) -->
+<div class="flex flex-col items-center bg-surface-bright px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-table-header text-table-header border-2 border-surface-bright z-10">3</div>
+<span class="font-table-header text-table-header text-on-surface-variant mt-2">Review &amp; Submit</span>
+</div>
+</div>
+</div>
+<!-- Wizard Body -->
+<div class="p-container-padding flex-1 flex flex-col gap-md">
+<!-- Search Box -->
+<div class="relative w-full mb-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-[32px] pl-10 pr-4 border border-outline-variant rounded font-body-md text-body-md text-on-surface bg-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-on-surface-variant/50" placeholder="Search active suppliers..." type="text"/>
+</div>
+<!-- Supplier List (Bento-style list items rather than a standard table for a modern feel, but maintaining density) -->
+<div class="flex flex-col gap-sm">
+<!-- Supplier Item (Selectable) -->
+<label class="flex items-center gap-md p-3 border border-outline-variant rounded bg-surface hover:bg-surface-container-low cursor-pointer transition-colors group relative">
+<input class="text-primary focus:ring-primary h-4 w-4 border-outline" name="supplier" type="radio"/>
+<div class="flex-1 flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Acme Corp Logistics</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">SUP-9921-A</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="px-2 py-1 bg-status-active/10 text-status-active font-label-caps text-label-caps rounded uppercase">Active</span>
+</div>
+</label>
+<!-- Supplier Item (Selectable, Selected State Example) -->
+<label class="flex items-center gap-md p-3 border border-primary rounded bg-primary-container/5 cursor-pointer transition-colors group relative">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4 border-outline" name="supplier" type="radio"/>
+<div class="flex-1 flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary">Global Tech Supplies Inc.</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">SUP-4458-B</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="px-2 py-1 bg-status-active/10 text-status-active font-label-caps text-label-caps rounded uppercase">Active</span>
+</div>
+</label>
+<!-- Supplier Item (Disabled) -->
+<div class="flex items-center gap-md p-3 border border-outline-variant/50 rounded bg-surface-container-low opacity-60 cursor-not-allowed group relative">
+<input class="text-outline/50 h-4 w-4 border-outline/50 cursor-not-allowed" disabled="" name="supplier" type="radio"/>
+<div class="flex-1 flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">Apex Manufacturing</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">SUP-1102-C</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="px-2 py-1 bg-status-pending/10 text-status-pending font-label-caps text-label-caps rounded uppercase">Pending Approval</span>
+</div>
+<!-- Tooltip on Hover -->
+<div class="absolute inset-0 hidden group-hover:block" title="This supplier is not currently active and cannot be selected for new orders."></div>
+</div>
+<!-- Supplier Item (Disabled) -->
+<div class="flex items-center gap-md p-3 border border-status-error/20 rounded bg-error-container/20 opacity-60 cursor-not-allowed group relative">
+<input class="text-outline/50 h-4 w-4 border-outline/50 cursor-not-allowed" disabled="" name="supplier" type="radio"/>
+<div class="flex-1 flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">Zenith Materials Ltd.</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">SUP-8890-D</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="px-2 py-1 border border-status-error text-status-error font-label-caps text-label-caps rounded uppercase bg-surface">Cancelled</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Wizard Footer / Actions -->
+<div class="px-container-padding py-4 border-t border-outline-variant bg-surface-container-low flex justify-end gap-sm rounded-b-lg">
+<button class="px-4 py-2 border border-outline-variant text-on-surface rounded font-table-header text-table-header hover:bg-surface-container-high transition-colors">Cancel</button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded font-table-header text-table-header hover:bg-primary/90 transition-colors shadow-sm">Next</button>
+<!-- For the 'disabled' state requested by user, swap the above button with this one:
+                <button disabled class="px-4 py-2 bg-surface-variant text-on-surface-variant/50 border border-outline-variant/50 rounded font-table-header text-table-header cursor-not-allowed">Next</button>
+                -->
+</div>
+</div>
+</main>
+</body></html>

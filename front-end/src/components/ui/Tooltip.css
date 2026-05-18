@@ -1,0 +1,22 @@
+.tt { position: relative; display: inline-flex; }
+.tt__bubble {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 80ms ease;
+  background: var(--inverse-surface);
+  color: var(--inverse-on-surface);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  z-index: 50;
+}
+.tt:hover .tt__bubble,
+.tt:focus-within .tt__bubble { opacity: 1; }
+
+.tt[data-placement='bottom'] .tt__bubble { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tt[data-placement='top']    .tt__bubble { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.tt[data-placement='right']  .tt__bubble { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tt[data-placement='left']   .tt__bubble { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }

@@ -1,0 +1,20 @@
+.tabs__list {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--outline-variant);
+  margin-bottom: 16px;
+}
+.tabs__tab {
+  padding: 8px 12px;
+  font-size: var(--fs-body-md);
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  border-radius: 4px 4px 0 0;
+}
+.tabs__tab:hover { color: var(--text); background: var(--surface-container); }
+.tabs__tab.is-active {
+  color: var(--primary);
+  border-bottom-color: var(--primary-container);
+  font-weight: 600;
+}
