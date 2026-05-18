@@ -1,0 +1,142 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gep}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gep}
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gep}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  iam:
+    build: ./iam
+    environment:
+      PORT: 3001
+      DATABASE_URL: ${AUTH_DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      ACCESS_TOKEN_TTL_SECONDS: ${ACCESS_TOKEN_TTL_SECONDS}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      BOOTSTRAP_ADMIN_EMAIL: admin@demo.local
+      BOOTSTRAP_ADMIN_PASSWORD: Passw0rd!
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  supplier-service:
+    build: ./supplier-service
+    environment:
+      PORT: 3002
+      MONGODB_URL: ${MONGODB_URL}
+      MONGODB_DB: ${MONGODB_DB}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: gep-supplier
+      CORS_ORIGINS: ${CORS_ORIGINS}
+    ports:
+      - "3002:3002"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:3002/health').status==200 else 1)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  po-service:
+    build: ./po-service
+    environment:
+      PORT: 3003
+      DATABASE_URL: ${PO_DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: gep-po
+      SUPPLIER_SERVICE_URL: ${SUPPLIER_SERVICE_URL}
+      DEFAULT_APPROVAL_THRESHOLD: ${DEFAULT_APPROVAL_THRESHOLD}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      supplier-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3003/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  seed:
+    build: ./seed
+    environment:
+      AUTH_SERVICE_URL: ${AUTH_SERVICE_URL}
+      SUPPLIER_SERVICE_URL: ${SUPPLIER_SERVICE_URL}
+      PO_SERVICE_URL: ${PO_SERVICE_URL}
+    depends_on:
+      iam:
+        condition: service_healthy
+      supplier-service:
+        condition: service_healthy
+      po-service:
+        condition: service_healthy
+    restart: "no"
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    ports:
+      - "8978:8978"
+    volumes:
+      - cloudbeaver_data:/opt/cloudbeaver/workspace
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  mongo-express:
+    image: mongo-express:latest
+    environment:
+      ME_CONFIG_MONGODB_URL: ${MONGODB_URL:-mongodb://mongo:27017/}
+      ME_CONFIG_BASICAUTH: "false"
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  mongodata:
+  cloudbeaver_data:
+
+networks:
+  default:
+    name: gep-network
+    driver: bridge
