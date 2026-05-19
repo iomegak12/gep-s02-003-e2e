@@ -1,0 +1,86 @@
+.support {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.support__header { margin-bottom: 4px; }
+
+/* contact cards */
+.support__contact {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.support__contact-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 100ms ease, transform 60ms ease;
+}
+a.support__contact-card:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--outline-variant));
+  transform: translateY(-1px);
+}
+.support__contact-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--primary-container) 14%, transparent);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* status row */
+.support__status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-md);
+  padding: 16px 20px;
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+}
+
+/* FAQ accordion */
+.support__faq {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+.support__faq .t-caps { color: var(--text-muted); margin-bottom: 8px; }
+.support__faq-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--outline-variant);
+}
+.faq { border-bottom: 1px solid var(--outline-variant); }
+.faq__head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 12px 0;
+  font-size: var(--fs-body-md);
+  font-weight: 500;
+  color: var(--text);
+}
+.faq__head:hover { color: var(--primary); }
+.faq__chevron { transition: transform 160ms ease; }
+.faq.is-open .faq__chevron { transform: rotate(180deg); color: var(--primary); }
+.faq__body {
+  padding: 0 0 14px;
+  color: var(--text);
+  line-height: 1.55;
+  max-width: 720px;
+}

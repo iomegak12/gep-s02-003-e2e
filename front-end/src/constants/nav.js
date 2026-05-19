@@ -1,5 +1,6 @@
 import {
-  LayoutDashboard, Users, Building2, FileText, Inbox, ShieldCheck, UserCircle
+  LayoutDashboard, Users, Building2, FileText, Inbox, ShieldCheck,
+  UserCircle, Settings, FileText as DocIcon, LifeBuoy
 } from 'lucide-react';
 import { ROLES } from '../utils/roles.js';
 
@@ -13,7 +14,10 @@ export const NAV_ITEMS = [
   { to: '/admin/suppliers/pending', label: 'Supplier review', icon: ShieldCheck, roles: [ROLES.ADMIN] },
   { to: '/purchase-orders',    label: 'Purchase orders',  icon: FileText,        roles: [ROLES.BUYER, ROLES.ADMIN, ROLES.APPROVER] },
   { to: '/admin/users',        label: 'Users',            icon: Users,           roles: [ROLES.ADMIN] },
-  { to: '/profile',            label: 'My profile',       icon: UserCircle,      roles: null, footer: true }
+  { to: '/profile',  label: 'My profile', icon: UserCircle, roles: null, footer: true },
+  { to: '/settings', label: 'Settings',   icon: Settings,   roles: null, footer: true },
+  { to: '/terms',    label: 'Terms',      icon: DocIcon,    roles: null, footer: true },
+  { to: '/support',  label: 'Support',    icon: LifeBuoy,   roles: null, footer: true }
 ];
 
 export function navForRoles(roles = []) {

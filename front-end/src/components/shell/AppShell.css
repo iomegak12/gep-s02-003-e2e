@@ -1,4 +1,24 @@
 .shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--background); }
+
+/* Skip link — visible only when focused (keyboard users). */
+.shell__skip {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 8px 12px;
+  background: var(--primary-container);
+  color: var(--on-primary);
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: var(--fs-body-sm);
+  transform: translateY(-200%);
+  transition: transform 120ms ease;
+}
+.shell__skip:focus { transform: translateY(0); }
+
+.shell__main:focus { outline: none; }
+
 .shell__body { display: flex; flex: 1; min-height: 0; }
 .shell__main {
   flex: 1;

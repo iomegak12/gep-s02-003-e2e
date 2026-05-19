@@ -5,6 +5,7 @@ import {
   approveSupplier, deactivateSupplier, reactivateSupplier, blacklistSupplier, deleteSupplier
 } from '../../api/suppliers.js';
 import { normaliseError } from '../../api/errors.js';
+import { withCorr } from '../../api/notify.js';
 import { ACTION_META } from './supplierActions.js';
 
 const API_BY_ACTION = {
@@ -49,7 +50,7 @@ export function useSupplierAction({ onSuccess } = {}) {
         close();
       } else {
         toast.error(`${ACTION_META[vars.action].label} failed`, {
-          description: e.message || 'Please try again.'
+          description: withCorr(e.message || 'Please try again.', e.correlationId)
         });
       }
     }

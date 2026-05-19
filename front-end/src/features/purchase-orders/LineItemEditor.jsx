@@ -173,11 +173,7 @@ export default function LineItemEditor({ poId, currency, items = [], onChanged }
 
           return (
             <div className="li-table__row" key={r.clientId}>
-              <input className="li-input" type="number" min={1}
-                value={data.line_number}
-                onChange={(e) => updateDraft(r.clientId, { line_number: Number(e.target.value) })}
-                disabled={busy}
-              />
+              <span style={{ color: 'var(--text-muted)' }}>{data.line_number}</span>
               <input className="li-input" placeholder="Item description"
                 value={data.item_description}
                 onChange={(e) => updateDraft(r.clientId, { item_description: e.target.value })}

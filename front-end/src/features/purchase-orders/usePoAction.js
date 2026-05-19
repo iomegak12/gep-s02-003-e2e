@@ -5,6 +5,7 @@ import {
   submitPo, approvePo, rejectPo, fulfillPo, cancelPo, revisePo, closePo
 } from '../../api/purchaseOrders.js';
 import { normaliseError } from '../../api/errors.js';
+import { withCorr } from '../../api/notify.js';
 import { PO_ACTION_META } from './poActions.js';
 
 const API_BY_ACTION = {
@@ -62,7 +63,7 @@ export function usePoAction({ onSuccess } = {}) {
         });
       } else {
         toast.error(`${PO_ACTION_META[vars.action].label} failed`, {
-          description: e.message || 'Please try again.'
+          description: withCorr(e.message || 'Please try again.', e.correlationId)
         });
       }
     }

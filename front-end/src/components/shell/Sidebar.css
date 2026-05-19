@@ -7,17 +7,31 @@
   flex-direction: column;
   gap: 4px;
   transition: width 160ms ease;
-  height: 100%;
   position: sticky;
   top: var(--topbar-height);
   align-self: flex-start;
-  max-height: calc(100vh - var(--topbar-height));
-  overflow-y: auto;
+  /* Fill the viewport below the top bar so the footer can anchor to the
+     bottom (margin-top:auto on the footer needs a tall flex container). */
+  height: calc(100vh - var(--topbar-height));
+  overflow-x: hidden;
+  overflow-y: hidden; /* the inner primary nav scrolls instead */
 }
 .sidebar--collapsed { width: var(--sidebar-collapsed); }
 
 .sidebar__nav { display: flex; flex-direction: column; gap: 2px; }
-.sidebar__nav--footer { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--outline-variant); }
+/* Primary nav takes all remaining space and scrolls; footer stays pinned. */
+.sidebar__nav:not(.sidebar__nav--footer) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sidebar__nav--footer {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--outline-variant);
+}
 
 .sidebar__item {
   position: relative;
@@ -47,5 +61,19 @@
   background: var(--primary-container);
 }
 
-.sidebar--collapsed .sidebar__item { justify-content: center; padding: 0; }
+/* Collapsed: centre the items as fixed-size squares so icons sit dead-centre
+   regardless of scrollbar gutter or the active-state ::before accent bar. */
+.sidebar--collapsed .sidebar__nav { align-items: center; }
+.sidebar--collapsed .sidebar__item {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  gap: 0;
+}
+.sidebar--collapsed .sidebar__item.is-active::before {
+  /* keep the accent bar aligned to the sidebar's left edge, not the item */
+  left: -14px;
+}
+
 .sidebar__label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

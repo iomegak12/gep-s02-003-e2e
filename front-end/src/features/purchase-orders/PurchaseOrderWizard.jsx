@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm, Controller, useFieldArray, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
@@ -238,9 +238,14 @@ function LineItemsStep({ control, register, errors, disabled }) {
   const totals = computeTotals(items);
 
   // Auto-add an empty row so the user has something to fill on first visit.
+  // Use a ref so React 18 StrictMode's double-invoke of effects doesn't seed
+  // two rows (which would later collide on the unique (po_id, line_number)
+  // constraint at the back-end).
+  const seededRef = useRef(false);
   useEffect(() => {
-    if (fields.length === 0) {
+    if (!seededRef.current && fields.length === 0) {
       append(blankLineItem(1));
+      seededRef.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -274,13 +279,8 @@ function LineItemsStep({ control, register, errors, disabled }) {
           const e = rowErrors?.[idx] || {};
           return (
             <div className="li-table__row" key={f.id}>
-              <input
-                className="li-input"
-                type="number"
-                min={1}
-                {...register(`line_items.${idx}.line_number`, { valueAsNumber: true })}
-                disabled={disabled}
-              />
+              {/* line_number is auto-assigned on submit; show position only */}
+              <span style={{ color: 'var(--text-muted)' }}>{idx + 1}</span>
               <div>
                 <input
                   className="li-input"

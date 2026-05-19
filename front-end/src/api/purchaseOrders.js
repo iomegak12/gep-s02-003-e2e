@@ -68,6 +68,10 @@ export async function poSpendBySupplier(period = 'ytd', limit = 10) {
   const { data } = await apiClient.get(`${BASE}/aggregations/spend-by-supplier`, { params: { period, limit } });
   return data;
 }
+export async function poSpendByCategory(period = 'ytd') {
+  const { data } = await apiClient.get(`${BASE}/aggregations/spend-by-category`, { params: { period } });
+  return data;
+}
 export async function poPendingApprovals()      { const { data } = await apiClient.get(`${BASE}/aggregations/pending-approvals`);    return data; }
 export async function poCycleTime()             { const { data } = await apiClient.get(`${BASE}/aggregations/cycle-time`);          return data; }
 

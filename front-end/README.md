@@ -6,17 +6,17 @@ nginx reverse proxy.
 
 ## Phase status
 
-This repo is being delivered in **8 phases**. See
-[CHANGELOG.md](CHANGELOG.md) for what's currently shipped.
+All 8 phases are shipped — see [CHANGELOG.md](CHANGELOG.md) for the per-phase
+detail.
 
 - **Phase 1 — Foundation** ✅ scaffold, design tokens, theme, app shell, service health modal, nginx + docker.
-- Phase 2 — Login
-- Phase 3 — Suppliers
-- Phase 4 — Purchase Orders
-- Phase 5 — Approvals
-- Phase 6 — User Management
-- Phase 7 — Profile & Settings
-- Phase 8 — Dashboards, charts & polish
+- **Phase 2 — Login** ✅ form, sample-cred icons, role-based landing.
+- **Phase 3 — Suppliers** ✅ list (Table/Card/Kanban) + detail, create wizard (chips, India address), edit, admin actions (approve / blacklist / deactivate / reactivate / delete) + pending queue.
+- **Phase 4 — Purchase Orders** ✅ list + detail with status-driven action bar, 4-step create wizard, inline line-item editor for DRAFT POs.
+- **Phase 5 — Approvals** ✅ approver inbox with KPIs, queue filtered by approval limit, inline Approve / Reject.
+- **Phase 6 — User Management** ✅ list, detail, create, edit, reset password modal.
+- **Phase 7 — Profile & Settings** ✅ profile view, change password, theme + debug toggles, footer nav for Terms & Support.
+- **Phase 8 — Dashboards, charts & polish** ✅ persona-specific dashboards (Buyer / Approver / Admin) with KPIs + Recharts donut / bar / line widgets, year-selector, accessibility pass, dark-palette refinement.
 
 ## Tech stack
 
@@ -75,6 +75,22 @@ cd ../front-end && docker compose up --build -d
 `front-end/docker-compose.yml` joins the **external** `gep-network` created by
 the back-end stack, so nginx can resolve `iam`, `supplier-service`, and
 `po-service` by DNS.
+
+## How to demo
+
+The Login page has three icon buttons under the form that pre-fill the seed
+credentials. Pick one to walk the matching journey:
+
+| Persona | Email | Where to start | What to try |
+|---|---|---|---|
+| **Buyer** | `buyer@demo.local` | `/buyer/dashboard` | Create a supplier (4-step wizard with India address chips) → Create a PO → Submit it (small totals auto-approve). |
+| **Approver** (hi) | `approver-hi@demo.local` | `/approvals` | Approve / Reject queue items — Reject opens curated chip reasons. |
+| **Admin** | `admin@demo.local` | `/admin/dashboard` | Approve/blacklist pending suppliers, manage users, reset a password. |
+
+Password for all seeded accounts: `Passw0rd!`. Click the **health-dot** in the
+top bar at any time to see IAM / Supplier / PO service status; toggle the
+sun/moon to switch themes. Visit `/terms` and `/support` from the footer of
+the sidebar.
 
 ## Project layout
 

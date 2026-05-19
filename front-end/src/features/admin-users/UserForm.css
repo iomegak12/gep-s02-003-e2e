@@ -1,0 +1,32 @@
+.user-form { display: flex; flex-direction: column; gap: 16px; }
+
+.user-form__banner {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+  color: var(--on-error-container);
+  border: 1px solid color-mix(in srgb, var(--error) 35%, transparent);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+
+.user-form__section {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.user-form__section-title { color: var(--text-muted); margin-bottom: 12px; }
+.user-form__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.user-form__span { grid-column: 1 / -1; }
+
+.user-form__role-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.user-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}

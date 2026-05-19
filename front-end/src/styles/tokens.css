@@ -99,21 +99,23 @@
 }
 
 [data-theme='dark'] {
-  /* Deep obsidian base with a faint blue-grey tonal layer-up. */
+  /* Deep obsidian base with a faint blue-grey tonal layer-up.
+     Container layers step up in lightness so borders and tonal hierarchy
+     remain visible against the surface. */
   --surface: #0b0c0e;
-  --surface-dim: #0a0b0d;
-  --surface-bright: #1c1d22;
-  --surface-container-lowest: #07080a;
-  --surface-container-low: #111217;
-  --surface-container: #15161c;
-  --surface-container-high: #1b1c23;
-  --surface-container-highest: #22232c;
+  --surface-dim: #08090b;
+  --surface-bright: #1f2027;
+  --surface-container-lowest: #0a0b0d;
+  --surface-container-low: #14151b;
+  --surface-container: #1a1b22;
+  --surface-container-high: #20212a;
+  --surface-container-highest: #282a34;
   --on-surface: #ecebf5;
-  --on-surface-variant: #b6b5c4;
+  --on-surface-variant: #c0bfce;
   --inverse-surface: #ecebf5;
   --inverse-on-surface: #1a1b25;
-  --outline: #6e6d80;
-  --outline-variant: #2b2c36;
+  --outline: #8a8a9a;
+  --outline-variant: #3a3b48;
   --surface-tint: #6a70ff;
   --primary: #bfc2ff;
   --on-primary: #ffffff;

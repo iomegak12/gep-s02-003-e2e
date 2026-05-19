@@ -5,6 +5,138 @@ loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-05-19
+
+First fully-functional release. Closes the 8-phase rollout: all screens from
+the UI Spec are implemented, every back-end endpoint described in the platform
+spec has a UI consumer, and the app is production-shaped (nginx reverse proxy,
+multi-stage Docker image, theming, role-based routing, audit-friendly
+correlation IDs everywhere).
+
+### Added — Polish (a11y + dark palette)
+- **Skip-to-content link** in the app shell — visible only when focused,
+  jumps past the top bar and sidebar straight to `<main>`.
+- **Modal focus management**: focus moves into the dialog on open, traps
+  Tab / Shift+Tab inside, restores focus to the opener on close, in
+  addition to the existing Escape + scrim-click closing.
+- **DataTable row keyboard support**: rows that have `onRowClick` are now
+  reachable via Tab and openable with Enter or Space; rendered with
+  `role="button"`.
+- **Dark palette tune-up**: brighter `--outline-variant` (`#3a3b48`) and
+  `--outline` (`#8a8a9a`) so borders and tonal layering remain readable;
+  slightly clearer container hierarchy and `--on-surface-variant`.
+
+### Added — Phase 8 (Persona dashboards)
+- Chart primitives under `src/components/charts/`:
+  - `KpiCard` — tonal KPI tile with optional link, sublabel, trend badge.
+  - `DonutChart` — Recharts pie with a centred total label, status-aware
+    colours when items carry a `key` matching a supplier/PO status.
+  - `BarChart` — vertical / horizontal, optional INR (compact) formatting.
+  - `LineChart` — Recharts area with a subtle primary-tinted gradient.
+- `chartTheme.js` — reads CSS variables via `getComputedStyle` and a
+  `MutationObserver` on `data-theme`, so charts re-paint with the correct
+  palette on light/dark switch. Includes `STATUS_COLOR` map and
+  `formatINR(amount, { compact })` (₹54.56K / ₹12.3L / ₹4.5Cr).
+- API: added `poSpendByCategory(period)`.
+- **BuyerDashboard** (`/buyer/dashboard`): KPIs (cycle time avg/median,
+  total suppliers, top supplier YTD, spend YTD top-5), 3 widgets —
+  Suppliers-by-status donut, Monthly-spend line with **year chip selector**
+  (last 3 years), Top-5 suppliers horizontal bar.
+- **ApproverDashboard** (`/approver/dashboard`): KPIs (pending approvals,
+  pending total value, cycle time, monthly spend YTD), 2 widgets — Monthly
+  spend with year selector, Spend-by-category bar.
+- **AdminDashboard** (`/admin/dashboard`): KPIs (total users, total
+  suppliers, total POs, top supplier YTD), 3 widgets — Suppliers-by-status
+  donut, POs-by-status donut, Top-10 suppliers horizontal bar.
+- All charts share a consistent loading (skeleton) / empty / error pattern.
+- Replaced the Phase 1 `PlaceholderDashboard` for every persona; the file
+  is removed.
+
+### Added — Footer nav: Settings / Terms / Support
+- Footer of the left sidebar now carries **My profile · Settings · Terms ·
+  Support** (in addition to the existing Profile item). All four are
+  visible to every role; the current item highlights with the same active
+  accent bar as the primary nav.
+- **TermsPage** (`/terms`) — full SCM-flavoured Terms & Conditions covering
+  acceptance, service scope, accounts & auth, roles & approval limits,
+  supplier data confidentiality, acceptable use, audit/correlation,
+  IP, availability, liability, termination, changes, and governing law.
+- **SupportPage** (`/support`) — three sections:
+  - 4 contact cards (Email, In-app chat, Business hours, Knowledge base).
+  - "Live service status" row that opens the existing `ServiceHealthModal`.
+  - FAQ accordion with 10 procurement-flavoured Q&As (PO auto-approval,
+    approval limits, blacklist vs deactivate, password reset, bug-report
+    correlation id, theme storage, role-based row actions, etc.).
+- Routes `/terms` and `/support` mounted under the app shell (authenticated
+  only). The existing `Settings` route gets a sidebar entry alongside it.
+
+### Added — Phase 7 (Profile & Settings)
+- **ProfilePage** (`/profile`, all roles): read-only view fed by
+  `GET /api/v1/auth/me` — identity, status, role chips, and the
+  approval-limit row (only when APPROVER). Link to Settings.
+- **SettingsPage** (`/settings`, all roles) with three sections:
+  - **Change password**: calls `PATCH /api/v1/auth/me/password`. Client-side
+    rules (≥ 8 chars, confirm matches, must differ from current). Surfaces
+    `INVALID_CURRENT_PASSWORD` inline on the current-password field; toast
+    + form reset on success.
+  - **Appearance**: light/dark chip switch wired to the existing
+    `ThemeProvider` (mirrors the top-bar toggle).
+  - **Debug**: toggle "Show correlation IDs in error toasts", persisted to
+    `localStorage.gep.debug.show_correlation_ids` and synced across tabs
+    via the `storage` event.
+- New hook `useDebugPrefs` + helper `getShowCorrelationIds`.
+- New tiny helper `withCorr(message, correlationId)` in `src/api/notify.js`;
+  applied in `usePoAction` and `useSupplierAction` error toasts so toggling
+  the debug flag immediately enriches error descriptions with the correlation
+  id (no click on "Details" needed).
+- Replaced the Phase 1 placeholders for `/profile` and `/settings`.
+
+### Added — Phase 6 (Admin: User Management)
+- IAM API: `listUsers`, `getUser`, `createUser`, `updateUser`,
+  `resetUserPassword`, `changeOwnPassword`.
+- `userSchema.js` — zod schemas for create (full) and update (partial), with
+  cross-field rule: `approval_limit` is required when `roles` includes
+  APPROVER. Helpers: `emptyUserDraft`, `toCreatePayload`, `toUpdatePayload`
+  (the latter auto-clears `approval_limit` when APPROVER is removed).
+- Reusable **UserForm**: Identity section (email + full name immutable on
+  edit, initial password with reveal toggle on create), Roles & access
+  section (multi-select role chips, conditional approval limit field,
+  Active/Inactive chip switch on edit).
+- **UserListPage** (`/admin/users`): paginated table with role chips,
+  approval-limit, active badge, row kebab (**Edit** / **Reset password**),
+  "Create user" CTA.
+- **UserDetailPage** (`/admin/users/:id`): identity + roles panels, status
+  badge, admin action bar (Edit / Reset password / Deactivate ↔ Reactivate).
+  Handles `USER_NOT_FOUND` with an empty state.
+- **UserCreatePage** (`/admin/users/new`): surfaces `DUPLICATE_RESOURCE`
+  (email taken) inline; toast + redirect to detail on success.
+- **UserEditPage** (`/admin/users/:id/edit`): pre-loads the user, sends a
+  `PATCH` with only the editable fields, invalidates list + detail cache.
+- **ResetPasswordModal**: inline modal with show/hide eye, a "Generate"
+  helper that produces a 12-char mixed password, min-length client-side
+  validation. Triggered from list row kebab + detail action bar.
+- All routes guarded by `RequireRole([ADMIN])`. The Phase 1 placeholder is
+  gone.
+
+### Added — Phase 5 (Approver: Approvals Inbox)
+- New page **ApprovalsInboxPage** at `/approvals` (APPROVER/ADMIN guarded).
+  - Two KPI tiles driven by the `aggregations/pending-approvals` endpoint:
+    **Pending count** and **Pending total value**.
+  - When the approver has an `approval_limit`, a third tile shows how many
+    SUBMITTED POs sit **above** that limit (visible-only count, those POs
+    are excluded from the queue and surface in a footnote).
+  - Queue table (PO #, Supplier, Total, Expected delivery, Age badge,
+    inline View / Approve / Reject). Pulls from
+    `GET /purchase-orders?status=SUBMITTED&page_size=100` and client-filters
+    by `approval_limit` (the list endpoint itself does not enforce this).
+  - **Age** badge colours: ≥7 days red, ≥3 days amber, otherwise neutral.
+  - Inline actions reuse `usePoAction` + `PoActionDialog`, so **Reject**
+    opens the curated chip-reason picker (poReject presets) and
+    `APPROVAL_LIMIT_EXCEEDED` / `INVALID_STATUS_TRANSITION` errors land
+    on the existing toast paths.
+- Route `/approvals` now mounts the real page; the Phase 1 placeholder is
+  gone.
+
 ### Added — Phase 4b (Purchase Orders: create wizard + inline line-item editor)
 - API: `createPurchaseOrder`, `addLineItem`, `updateLineItem`, `deleteLineItem`.
 - `poSchema.js` — zod schemas (`poCreateSchema`, `lineItemSchema`,

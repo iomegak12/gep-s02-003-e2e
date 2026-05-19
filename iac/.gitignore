@@ -1,0 +1,23 @@
+# Terraform state and lock
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# Plan files
+*.tfplan
+
+# Generated SSH keys
+keys/
+*.pem
+id_rsa
+id_rsa.pub
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

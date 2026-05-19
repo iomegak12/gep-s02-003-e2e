@@ -58,9 +58,12 @@ export function toCreatePayload(values) {
   const { supplier_snapshot, ...rest } = values; // drop UI-only field
   const out = { ...rest };
   if (!out.notes || !out.notes.trim()) delete out.notes;
-  out.line_items = (values.line_items || []).map((li) => {
+  // Always renumber 1..N to guarantee uniqueness — the back-end has a
+  // unique constraint on (po_id, line_number) and the UI shouldn't be able
+  // to break it.
+  out.line_items = (values.line_items || []).map((li, idx) => {
     const item = {
-      line_number:      li.line_number,
+      line_number:      idx + 1,
       item_description: li.item_description,
       quantity:         li.quantity,
       unit_of_measure:  li.unit_of_measure,

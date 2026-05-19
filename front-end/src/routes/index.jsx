@@ -7,7 +7,9 @@ import { useAuth } from '../auth/AuthProvider.jsx';
 import { landingPathFor } from '../utils/roles.js';
 
 import LoginPage from '../features/auth/LoginPage.jsx';
-import PlaceholderDashboard from '../features/dashboard/PlaceholderDashboard.jsx';
+import BuyerDashboard from '../features/dashboard/BuyerDashboard.jsx';
+import ApproverDashboard from '../features/dashboard/ApproverDashboard.jsx';
+import AdminDashboard from '../features/dashboard/AdminDashboard.jsx';
 import PlaceholderPage from '../features/common/PlaceholderPage.jsx';
 import SupplierListPage from '../features/suppliers/SupplierListPage.jsx';
 import SupplierDetailPage from '../features/suppliers/SupplierDetailPage.jsx';
@@ -17,6 +19,15 @@ import AdminSupplierPendingPage from '../features/suppliers/AdminSupplierPending
 import PurchaseOrderListPage from '../features/purchase-orders/PurchaseOrderListPage.jsx';
 import PurchaseOrderDetailPage from '../features/purchase-orders/PurchaseOrderDetailPage.jsx';
 import PurchaseOrderCreatePage from '../features/purchase-orders/PurchaseOrderCreatePage.jsx';
+import ApprovalsInboxPage from '../features/approvals/ApprovalsInboxPage.jsx';
+import UserListPage from '../features/admin-users/UserListPage.jsx';
+import UserDetailPage from '../features/admin-users/UserDetailPage.jsx';
+import UserCreatePage from '../features/admin-users/UserCreatePage.jsx';
+import UserEditPage from '../features/admin-users/UserEditPage.jsx';
+import ProfilePage from '../features/profile/ProfilePage.jsx';
+import SettingsPage from '../features/settings/SettingsPage.jsx';
+import TermsPage from '../features/legal/TermsPage.jsx';
+import SupportPage from '../features/support/SupportPage.jsx';
 
 function HomeRedirect() {
   const { isAuthenticated, roles } = useAuth();
@@ -42,7 +53,7 @@ export default function AppRoutes() {
           path="/buyer/dashboard"
           element={
             <RequireRole allow={[ROLES.BUYER, ROLES.ADMIN]}>
-              <PlaceholderDashboard persona="BUYER" />
+              <BuyerDashboard />
             </RequireRole>
           }
         />
@@ -50,7 +61,7 @@ export default function AppRoutes() {
           path="/approver/dashboard"
           element={
             <RequireRole allow={[ROLES.APPROVER, ROLES.ADMIN]}>
-              <PlaceholderDashboard persona="APPROVER" />
+              <ApproverDashboard />
             </RequireRole>
           }
         />
@@ -58,7 +69,7 @@ export default function AppRoutes() {
           path="/admin/dashboard"
           element={
             <RequireRole allow={[ROLES.ADMIN]}>
-              <PlaceholderDashboard persona="ADMIN" />
+              <AdminDashboard />
             </RequireRole>
           }
         />
@@ -67,7 +78,7 @@ export default function AppRoutes() {
           path="/approvals"
           element={
             <RequireRole allow={[ROLES.APPROVER, ROLES.ADMIN]}>
-              <PlaceholderPage title="Approvals inbox" phase="Phase 5" />
+              <ApprovalsInboxPage />
             </RequireRole>
           }
         />
@@ -112,12 +123,38 @@ export default function AppRoutes() {
           path="/admin/users"
           element={
             <RequireRole allow={[ROLES.ADMIN]}>
-              <PlaceholderPage title="Users" phase="Phase 6" />
+              <UserListPage />
             </RequireRole>
           }
         />
-        <Route path="/profile"  element={<PlaceholderPage title="My profile" phase="Phase 7" />} />
-        <Route path="/settings" element={<PlaceholderPage title="Settings"   phase="Phase 7" />} />
+        <Route
+          path="/admin/users/new"
+          element={
+            <RequireRole allow={[ROLES.ADMIN]}>
+              <UserCreatePage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/users/:id"
+          element={
+            <RequireRole allow={[ROLES.ADMIN]}>
+              <UserDetailPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/users/:id/edit"
+          element={
+            <RequireRole allow={[ROLES.ADMIN]}>
+              <UserEditPage />
+            </RequireRole>
+          }
+        />
+        <Route path="/profile"  element={<ProfilePage  />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/terms"    element={<TermsPage    />} />
+        <Route path="/support"  element={<SupportPage  />} />
 
         <Route path="*" element={<PlaceholderPage title="Not found" />} />
       </Route>

@@ -1,0 +1,31 @@
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 100ms ease, transform 60ms ease;
+}
+.kpi--linked { cursor: pointer; }
+.kpi--linked:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--outline-variant));
+  transform: translateY(-1px);
+}
+
+.kpi__label { color: var(--text-muted); }
+.kpi__value {
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.kpi__sub { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.kpi--primary .kpi__value { color: var(--primary); }
+.kpi--active  .kpi__value { color: var(--status-active); }
+.kpi--pending .kpi__value { color: var(--status-pending); }
+.kpi--error   .kpi__value { color: var(--status-error); }
