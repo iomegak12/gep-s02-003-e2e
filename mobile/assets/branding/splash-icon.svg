@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Used by the expo-splash-screen plugin. Rendered centered on a white (light)
+       or obsidian (dark) background per app.json. -->
+  <g>
+    <rect x="262" y="262" width="500" height="500" rx="110" ry="110" fill="#1d20e9"/>
+    <text x="512" y="650" font-family="Roboto, Arial, sans-serif" font-size="320" font-weight="700" fill="#ffffff" text-anchor="middle">GEP</text>
+  </g>
+</svg>

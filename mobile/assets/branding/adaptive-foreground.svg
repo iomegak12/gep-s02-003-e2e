@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Android adaptive icon foreground.
+       The Android launcher masks/clips this; keep the artwork inside the safe zone
+       (a 660x660 centered square). The rest is transparent. -->
+  <text x="512" y="660" font-family="Roboto, Arial, sans-serif" font-size="520" font-weight="700" fill="#1d20e9" text-anchor="middle">G</text>
+  <circle cx="700" cy="320" r="44" fill="#3E46FF"/>
+</svg>
