@@ -51,7 +51,10 @@
           }
         }
       ],
-      "expo-font"
+      "./plugins/withNotifeeMaven",
+      "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
     ],
     "experiments": {
       "typedRoutes": false

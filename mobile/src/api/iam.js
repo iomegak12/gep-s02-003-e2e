@@ -39,3 +39,19 @@ export async function pingHealth() {
   const { data } = await axios.get(`${RAW_BASE_URLS.IAM_URL}/health`, { timeout: 5000 });
   return data;
 }
+
+// --- Device push tokens ---
+
+export async function registerDevice(token, platform, app_version) {
+  const { data } = await iam.post('/auth/me/devices', { token, platform, app_version });
+  return data;
+}
+
+export async function unregisterDevice(token) {
+  await iam.delete(`/auth/me/devices/${encodeURIComponent(token)}`);
+}
+
+export async function listDevices() {
+  const { data } = await iam.get('/auth/me/devices');
+  return data;
+}

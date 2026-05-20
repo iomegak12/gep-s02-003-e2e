@@ -1,32 +1,33 @@
-// Quick-fill credentials for the four seeded back-end personas.
-// Source: back-end/tests seed data and tech spec Appendix D.
+// Quick-fill credentials for the four seeded demo personas.
 // SECURITY: these are demo creds for trainees only; do not use in production builds.
+
+const COMMON_PASSWORD = 'Passw0rd!';
 
 export const SAMPLE_CREDENTIALS = [
   {
     id: 'buyer',
     label: 'Buyer',
     description: 'Procurement officer',
-    email: 'buyer1@gep.com',
-    password: 'P@ssw0rd!',
+    email: 'buyer@demo.local',
+    password: COMMON_PASSWORD,
     roleHint: 'BUYER',
     accent: '#3E46FF',
   },
   {
     id: 'approver',
-    label: 'Approver',
-    description: 'Senior buyer',
-    email: 'approver1@gep.com',
-    password: 'P@ssw0rd!',
+    label: 'Approver Hi',
+    description: 'High approval limit',
+    email: 'approver-hi@demo.local',
+    password: COMMON_PASSWORD,
     roleHint: 'APPROVER',
     accent: '#10B981',
   },
   {
     id: 'approver-lo',
-    label: 'Approver (Lo)',
+    label: 'Approver Lo',
     description: 'Low approval limit',
-    email: 'approver.low@gep.com',
-    password: 'P@ssw0rd!',
+    email: 'approver-lo@demo.local',
+    password: COMMON_PASSWORD,
     roleHint: 'APPROVER',
     accent: '#F59E0B',
   },
@@ -34,8 +35,8 @@ export const SAMPLE_CREDENTIALS = [
     id: 'admin',
     label: 'Admin',
     description: 'Platform admin',
-    email: 'admin1@gep.com',
-    password: 'P@ssw0rd!',
+    email: 'admin@demo.local',
+    password: COMMON_PASSWORD,
     roleHint: 'ADMIN',
     accent: '#8D2800',
   },

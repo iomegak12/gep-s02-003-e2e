@@ -42,6 +42,26 @@ services:
       CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:8080
       BOOTSTRAP_ADMIN_EMAIL: admin@demo.local
       BOOTSTRAP_ADMIN_PASSWORD: Passw0rd!
+      # Shared secret used by po-service to call IAM's internal notifications endpoint.
+      # SECURITY: rotate before any non-training deployment.
+      INTERNAL_SERVICE_TOKEN: dev-shared-7a89f1c4e2b6d3a0f8e5c1b4a7d9f2e6c5b8a3f0d7e1c4b9a6f3d8e2c5b1a4f7
+      # Firebase service account JSON (inline) for sending FCM push notifications.
+      # SECURITY: this is a project-level admin credential. Do not commit to a public repo.
+      # Rotate via Firebase Console → Project settings → Service accounts if exposure is suspected.
+      FIREBASE_SERVICE_ACCOUNT_JSON: |
+        {
+          "type": "service_account",
+          "project_id": "gep-training-platform",
+          "private_key_id": "9a153e0ee7b907155ee964f19b4197d7de2c7f8d",
+          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDIvz+dT1/vAZ95\nBaV7FF+xD5N/HmOpdyQUqUMRbp0VN/567IA78YpqnzCFWuBnMXTn8xX808aHGPvo\n4R/xdEzyJPAN4/LmbB5Ypco6Nqhl/shZLDaORpH0fjb+KEz9qXLgCkgsClD0v5dI\n+jiBlSsC3l6Ok1JYTlmL8bZskM6ovOgp5sZTLvKWexWR2O4fgbZjQR9P+P81quMW\niZuCdPSPkFhA2ryjgBDnPKxZPbBYjaBvGKaZRl14u8n9jHYuogDnLSJ+Ttf6+0aw\nrIt9vkZ1INxPnSgYA3CXmJWhx6a9jQvZpyDeZCejdZgQ6BtxNGOpwiB+JCLXfVXT\n7O1KOfCjAgMBAAECggEABdohah4Sv15uPjJucQiWg4xfMeD6acnJ2PpYNK1jUeeI\neR/k2xp+/P24BeMw0IFOFabt+KlZy71sNo09h6XqylJOVzFSduom9lGa9Bh8z0Be\nqc7SplIjVhvJ0Z3uJKTobuSN1w7T7laZe+yjcg+dqd8+pWxhBab/EEfTGBYemCeg\na0kQvIZQleDsDKtM3RdHKkEDMDM1duNF7Dltpgand6Lg2tUN+OccYx+POFb/HhWJ\n6Z2UZ/iMNtuFlNco748LjZ0FWD0bzed394MXOQsZJBPJp80kRQ0cESMGg0asUUrW\nvxnGWuWxoAkvM+2VGyxtbzBPUbCfPPot5R2UyZv/5QKBgQDkQX9bHBlMjlfpEbZO\nYYgaCh43mNXK5X3l8cKYRuqEZ2yAnhaw4wkiduyA0KQKVJdFYpcO0sDfn7cZQz+g\nPLb/WlQWW2VO6rnZMfn2jl3cZ5BIzQR8Dyd1UrPFY/8J0kCBcOxCRWacIhjVi4L7\nk4zxG2+i7hQAYtP95x7+A7bnzwKBgQDhJcbBGEIwBahPDzJME3IbK+OIWThJZ5fg\nVbS9OcIdTuK4p4jpp8xQsZOXWN5TzEQS8CrCpcP538DleUeSpkeVIDvgFXOuC3ZO\nejN0bEkB2OnrqvTaGn745CLVbUKrzB+2s/dOy+cH0rlAmLghcIJzNdoX/lmS/9Pn\nh5LJzETK7QKBgG+7xC0EXzoDf/MecYCC683bYBlVHmqY1n1GUDycklZIDmwTdwYV\nzTXqwzD3cSWBbR9Q+KMP9cxB8a5TJgU5U1dCj2D2UmxEKL+yYCsaW8X1iEKq4WQd\nQvKCjm+02HalTmBOt8hlEqqhYki+Z1rhSqAIDyjRpEbgGefzSE+N3+4vAoGBAJYp\nmdwjj9FzlIPWQNeYiJwys3i2+OGMZDFNOFSUdzEQ8gnyQ1CDh7OyHBvvO6lsLWLs\nJ7jW0lSPtZnXP7NBj7CYZRbZd+P25RsGSdc2eaLvx2RVCyWEUncxwUHTs4ndhLFY\nanN1b0s6ci/xK62x2m941VL3Y0q1seFT/MT2plMpAoGBAMPW2g1qnJAdPkN4PpL6\n7MbJeLIrOzAK1CC/8C+3G5Ragj/SYvrLzwd0d3Fvm9p4+A/AJTJXgzQc9kSonm98\ngfdCSVM1HAoMovpRAx4KI7S3L2KmVaa5EeykpNiJ3bwor9D2CBSQQ/Pl7kGNP6fM\n8+47pVt5Czk9XX8xw5U3G8R/\n-----END PRIVATE KEY-----\n",
+          "client_email": "firebase-adminsdk-fbsvc@gep-training-platform.iam.gserviceaccount.com",
+          "client_id": "114724301815944591935",
+          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+          "token_uri": "https://oauth2.googleapis.com/token",
+          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+          "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40gep-training-platform.iam.gserviceaccount.com",
+          "universe_domain": "googleapis.com"
+        }
     ports:
       - "3001:3001"
     depends_on:
@@ -89,6 +109,10 @@ services:
       SUPPLIER_SERVICE_URL: http://supplier-service:3002/api/v1
       DEFAULT_APPROVAL_THRESHOLD: 100000
       CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:8080
+      # IAM URL used to call /api/v1/internal/notifications/users after each PO transition.
+      AUTH_SERVICE_URL: http://iam:3001
+      # Must match INTERNAL_SERVICE_TOKEN on the iam service above.
+      INTERNAL_SERVICE_TOKEN: dev-shared-7a89f1c4e2b6d3a0f8e5c1b4a7d9f2e6c5b8a3f0d7e1c4b9a6f3d8e2c5b1a4f7
     ports:
       - "3003:3003"
     depends_on:

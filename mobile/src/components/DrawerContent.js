@@ -6,7 +6,8 @@ import { useRouter, usePathname } from 'expo-router';
 import { useAuth } from '../auth/AuthContext';
 import { useThemeMode } from '../theme/ThemeProvider';
 import { menuForRoles } from '../utils/roles';
-import { logout as apiLogout } from '../api/iam';
+import { logout as apiLogout, unregisterDevice } from '../api/iam';
+import { useNotifications } from '../notifications/NotificationsContext';
 import GepLogo from './GepLogo';
 
 function initialsOf(user) {
@@ -25,11 +26,18 @@ export default function DrawerContent(props) {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
   const { effective, toggle } = useThemeMode();
+  const { token: fcmToken, clear: clearNotifications } = useNotifications();
 
   const items = menuForRoles(user?.roles || []);
 
   const handleLogout = async () => {
-    await apiLogout();
+    // Unregister the FCM token first so server-side pushes stop targeting this device
+    // under the outgoing user. Best-effort — never block sign-out on it.
+    if (fcmToken) {
+      try { await unregisterDevice(fcmToken); } catch {}
+    }
+    try { await apiLogout(); } catch {}
+    clearNotifications();
     await signOut();
     router.replace('/(auth)/login');
   };

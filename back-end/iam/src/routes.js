@@ -25,6 +25,22 @@ const patchUserSchema = z.object({
 });
 const passwordSchema = z.object({ password: z.string().min(8) });
 const changePasswordSchema = z.object({ current_password: z.string().min(1), new_password: z.string().min(8) });
+const deviceSchema = z.object({
+  token: z.string().min(20).max(512),
+  platform: z.enum(['android', 'ios', 'web']),
+  app_version: z.string().max(32).optional(),
+});
+
+function publicDevice(d) {
+  return {
+    id: d.id,
+    token: d.token,
+    platform: d.platform,
+    app_version: d.app_version || null,
+    created_at: d.created_at,
+    last_seen_at: d.last_seen_at,
+  };
+}
 
 function publicUser(u) {
   return {
@@ -85,6 +101,52 @@ router.patch('/auth/me/password', authRequired, async (req, res, next) => {
     }
     const hash = await bcrypt.hash(new_password, 12);
     await pool.query('UPDATE users SET password_hash = $1, updated_at = now() WHERE id = $2', [hash, u.id]);
+    res.status(204).end();
+  } catch (e) { next(e); }
+});
+
+// --- Devices (push notification tokens) ---
+
+// Register / refresh a device token for the current user.
+// On conflict (same token already exists) we re-bind to the current user and bump last_seen_at —
+// handles app reinstalls and the case where one device is shared across multiple test users.
+router.post('/auth/me/devices', authRequired, async (req, res, next) => {
+  try {
+    const body = deviceSchema.parse(req.body);
+    const { rows } = await pool.query(
+      `INSERT INTO devices (user_id, token, platform, app_version)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (token) DO UPDATE
+         SET user_id = EXCLUDED.user_id,
+             platform = EXCLUDED.platform,
+             app_version = EXCLUDED.app_version,
+             last_seen_at = now()
+       RETURNING *`,
+      [req.user.sub, body.token, body.platform, body.app_version ?? null],
+    );
+    res.status(201).json(publicDevice(rows[0]));
+  } catch (e) { next(e); }
+});
+
+// List devices for the current user — handy for the Settings → Push card and for ops.
+router.get('/auth/me/devices', authRequired, async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT * FROM devices WHERE user_id = $1 ORDER BY last_seen_at DESC',
+      [req.user.sub],
+    );
+    res.json({ data: rows.map(publicDevice), total: rows.length });
+  } catch (e) { next(e); }
+});
+
+// Unregister a specific token. We match by both user_id and token so a leaked token
+// can't be deleted by another user. Idempotent — returns 204 even if nothing was deleted.
+router.delete('/auth/me/devices/:token', authRequired, async (req, res, next) => {
+  try {
+    await pool.query(
+      'DELETE FROM devices WHERE user_id = $1 AND token = $2',
+      [req.user.sub, req.params.token],
+    );
     res.status(204).end();
   } catch (e) { next(e); }
 });

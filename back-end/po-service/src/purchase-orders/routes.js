@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { asyncHandler } = require('../common/async-handler');
 const { requireAuth, requireRoles } = require('../auth/auth');
 const svc = require('./service');
+const notify = require('../notifications-client/notify');
 const {
   validate,
   createPoSchema,
@@ -64,24 +65,45 @@ router.delete('/:id/line-items/:line_id',
 
 router.post('/:id/submit',
   requireRoles('BUYER'),
-  asyncHandler(async (req, res) => res.json(await svc.submit(req.params.id, req.user))),
+  asyncHandler(async (req, res) => {
+    const po = await svc.submit(req.params.id, req.user);
+    // Auto-approved POs (under threshold) skip SUBMITTED and land in APPROVED directly.
+    if (po.auto_approved) {
+      notify.poApproved(po, req.correlationId).catch(() => {});
+    } else {
+      notify.poSubmitted(po, req.correlationId).catch(() => {});
+    }
+    res.json(po);
+  }),
 );
 
 router.post('/:id/approve',
   requireRoles('APPROVER'),
-  asyncHandler(async (req, res) => res.json(await svc.approve(req.params.id, req.user))),
+  asyncHandler(async (req, res) => {
+    const po = await svc.approve(req.params.id, req.user);
+    notify.poApproved(po, req.correlationId).catch(() => {});
+    res.json(po);
+  }),
 );
 
 router.post('/:id/reject',
   requireRoles('APPROVER'),
   validate(reasonSchema),
-  asyncHandler(async (req, res) => res.json(await svc.reject(req.params.id, req.user, req.body.reason))),
+  asyncHandler(async (req, res) => {
+    const po = await svc.reject(req.params.id, req.user, req.body.reason);
+    notify.poRejected(po, req.body.reason, req.correlationId).catch(() => {});
+    res.json(po);
+  }),
 );
 
 router.post('/:id/fulfill',
   requireRoles('BUYER'),
   validate(fulfillSchema),
-  asyncHandler(async (req, res) => res.json(await svc.fulfill(req.params.id, req.body.actual_delivery_date))),
+  asyncHandler(async (req, res) => {
+    const po = await svc.fulfill(req.params.id, req.body.actual_delivery_date);
+    notify.poFulfilled(po, req.correlationId).catch(() => {});
+    res.json(po);
+  }),
 );
 
 router.post('/:id/cancel',
@@ -97,7 +119,11 @@ router.post('/:id/revise',
 
 router.post('/:id/close',
   requireRoles('BUYER', 'APPROVER'),
-  asyncHandler(async (req, res) => res.json(await svc.close(req.params.id))),
+  asyncHandler(async (req, res) => {
+    const po = await svc.close(req.params.id);
+    notify.poClosed(po, req.correlationId).catch(() => {});
+    res.json(po);
+  }),
 );
 
 module.exports = router;

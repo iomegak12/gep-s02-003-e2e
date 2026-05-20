@@ -3,6 +3,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const { pool, migrate } = require('./db');
 const routes = require('./routes');
+const notificationsRoutes = require('./notifications');
 const { correlation, errorHandler } = require('./middleware');
 const swaggerUi = require('swagger-ui-express');
 const openapiSpec = require('./openapi');
@@ -45,6 +46,7 @@ async function main() {
   }));
 
   app.use('/api/v1', routes);
+  app.use('/api/v1/internal', notificationsRoutes);
   app.use(errorHandler);
 
   app.listen(PORT, () => console.log(`[iam] listening on :${PORT}`));

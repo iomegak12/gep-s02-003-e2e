@@ -46,10 +46,38 @@ The swipe-edge width is 60 px. If you have edge-to-edge gestures on Android 14+,
 **Theme doesn't persist**
 SecureStore writes are async. If you force-killed the app immediately after toggling, the write may not have flushed. Wait ~1 second after the toggle, then cold-launch.
 
-## FCM (Phase 4 onward)
+## FCM (Phase 4)
 
-Not yet wired; placeholders only. When implementing, ensure:
-- `app.json` → `android.googleServicesFile` resolves.
-- Package name matches `google-services.json`.
-- `@react-native-firebase/app` config plugin is added to `app.json` `plugins`.
-- After install run `npm run prebuild --clean` so the GMS Gradle plugin is applied.
+**No token shown in Settings → Push notifications**
+- On Android 13+ the OS prompts for `POST_NOTIFICATIONS` once. If you tapped Deny, re-enable from device Settings → Apps → Nexus SCM → Notifications, then cold-launch the app.
+- `google-services.json` at the project root must match `android.package` in `app.json` (`com.redivac.scmplatform`). If you ever regenerate it from Firebase, copy from `docs/` to root again — the root copy is gitignored.
+- After installing or upgrading `@react-native-firebase/*`, run `npm run prebuild` so the `com.google.gms.google-services` Gradle plugin is re-applied.
+
+**Test push from Firebase Console**
+1. Settings → Push notifications → Copy token.
+2. Firebase Console → project `gep-training-platform` → Cloud Messaging → "Send test message" → paste the token.
+3. To deep-link, add a data field: key `deep_link`, value e.g. `/(app)/approvals` or `/(app)/purchase-orders/<id>`. Only paths under `/(app)/...` (approvals, purchase-orders, suppliers, users, dashboard) are accepted by the in-app allow-list.
+
+**Push opens the app but doesn't navigate**
+The deep-link guard (`isSafeDeepLink` in `src/notifications/fcm.js`) only accepts the prefixes listed there. If you need to add a route (e.g. once Phase 5 ships), extend `VALID_DEEP_LINK_PREFIXES`.
+
+**Background message handler doesn't fire**
+It must be registered at module top level in `app/_layout.js` (not inside a component). Don't move that call into `FcmGate`.
+
+**Device doesn't appear under `/auth/me/devices`**
+- The IAM service must have applied migration `002_devices.sql`. Restart `iam` so `migrate()` runs (or check the startup log for `applied migration 002_devices.sql`).
+- The mobile app only registers once both the access token and FCM token are present. Log out and back in to force a re-registration; check the dev console for `[fcm] device registration failed` warnings.
+- The registration call uses the same axios client as everything else, so a 401 here means the access token is invalid — the silent-refresh interceptor will try once, then route to login.
+
+**Sending a test push from `back-end/tools/fcm-push`**
+- See `back-end/tools/fcm-push/README.md` for full setup. Quick check: `node send.js --token <COPY_FROM_SETTINGS> --dry-run` prints the exact JSON payload that would hit FCM without sending.
+
+**Approving a PO doesn't fire a push**
+- IAM must have a Firebase service account configured: either `back-end/iam/firebase-service-account.json` exists, or `FIREBASE_SERVICE_ACCOUNT_JSON` env var contains the JSON. If neither is set, IAM responds `503 FCM_NOT_CONFIGURED`.
+- Both IAM and PO services need the **same** `INTERNAL_SERVICE_TOKEN` value. If only one has it, the PO log shows `[notify] failed (401)`; if neither, you'll see `[notify] INTERNAL_SERVICE_TOKEN not set; skipping push`.
+- Confirm `AUTH_SERVICE_URL` (or `IAM_URL`) on PO service points at the running IAM instance.
+- The target user must have at least one registered device (check via `back-end/tools/fcm-push/list-devices.js`).
+
+**Foreground notification doesn't show in the system tray**
+- The Android default channel is created on first launch. If you previously denied the channel post-install, re-enable from device Settings → Apps → Nexus SCM → Notifications → General notifications.
+- Foreground display is handled by `@notifee/react-native`; check the dev console for `notifee` errors. Background/quit notifications use FCM's OS-level auto-display (different path).

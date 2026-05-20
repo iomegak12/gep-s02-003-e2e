@@ -1,0 +1,15 @@
+{
+  "name": "gep-fcm-push",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dev tool: send a test push notification to a registered device via FCM HTTP v1 API.",
+  "main": "send.js",
+  "scripts": {
+    "send": "node send.js",
+    "send:approvals": "node send.js --title \"Approval needed\" --body \"A PO is awaiting your decision.\" --deep-link \"/(app)/approvals\"",
+    "list-devices": "node list-devices.js"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.14.2"
+  }
+}
