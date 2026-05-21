@@ -1,0 +1,108 @@
+# OpenTelemetry Collector (contrib 0.130.0) configuration.
+# Single hub: receives OTLP from all 3 back-end services + browser RUM,
+# fans out to Prometheus / Loki / Tempo, and computes service-graph +
+# spanmetrics via connectors.
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "http://localhost:*"
+            - "https://localhost:*"
+          allowed_headers: ["*"]
+
+processors:
+  batch:
+    send_batch_size: 1024
+    timeout: 5s
+  memory_limiter:
+    check_interval: 2s
+    limit_mib: 512
+    spike_limit_mib: 128
+  resource:
+    attributes:
+      - key: deployment.environment
+        value: dev
+        action: upsert
+  # Promote selected resource attributes to log attributes, then tell the
+  # Loki exporter to label streams by them. The magic key
+  # `loki.resource.labels` is read by the Loki exporter at flush time.
+  attributes/loki_labels:
+    actions:
+      - action: insert
+        key: loki.resource.labels
+        value: service.name,service.namespace,deployment.environment
+      - action: insert
+        key: loki.format
+        value: json
+
+connectors:
+  servicegraph:
+    latency_histogram_buckets: [2ms, 5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s]
+    dimensions: [http.method, http.status_code]
+    store:
+      ttl: 2s
+      max_items: 1000
+  spanmetrics:
+    namespace: traces_spanmetrics
+    histogram:
+      explicit:
+        buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s]
+    dimensions:
+      - name: http.method
+      - name: http.status_code
+      - name: http.route
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: ""
+    send_timestamps: true
+    metric_expiration: 5m
+    resource_to_telemetry_conversion:
+      enabled: true
+
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+    default_labels_enabled:
+      exporter: false
+      job: true
+
+  debug:
+    verbosity: basic
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+  pprof:
+    endpoint: 0.0.0.0:1777
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+service:
+  extensions: [health_check, pprof, zpages]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, batch]
+      exporters: [otlp/tempo, servicegraph, spanmetrics]
+
+    metrics:
+      receivers: [otlp, spanmetrics, servicegraph]
+      processors: [memory_limiter, resource, batch]
+      exporters: [prometheus]
+
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, attributes/loki_labels, batch]
+      exporters: [loki]

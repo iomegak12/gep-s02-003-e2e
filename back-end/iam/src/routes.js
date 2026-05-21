@@ -4,6 +4,7 @@ const { z } = require('zod');
 const { pool } = require('./db');
 const { sign, TTL } = require('./jwt');
 const { authRequired, requireRole, httpError } = require('./middleware');
+const { recordLogin, recordJwtIssued, recordRegistration } = require('./metrics-domain');
 
 const router = express.Router();
 
@@ -69,11 +70,20 @@ router.post('/auth/login', async (req, res, next) => {
   try {
     const { email, password } = loginSchema.parse(req.body);
     const u = await findByEmail(email);
-    if (!u || !u.is_active) throw httpError(401, 'AUTH_FAILED', 'Invalid credentials');
+    if (!u || !u.is_active) {
+      recordLogin('failure');
+      throw httpError(401, 'AUTH_FAILED', 'Invalid credentials');
+    }
     const ok = await bcrypt.compare(password, u.password_hash);
-    if (!ok) throw httpError(401, 'AUTH_FAILED', 'Invalid credentials');
+    if (!ok) {
+      recordLogin('failure');
+      throw httpError(401, 'AUTH_FAILED', 'Invalid credentials');
+    }
+    const token = sign(u);
+    recordLogin('success');
+    for (const role of (u.roles || [])) recordJwtIssued(role);
     res.json({
-      access_token: sign(u),
+      access_token: token,
       token_type: 'Bearer',
       expires_in: TTL,
       user: publicUser(u),
@@ -155,13 +165,17 @@ router.post('/auth/users', authRequired, requireRole('ADMIN'), async (req, res, 
   try {
     const body = createUserSchema.parse(req.body);
     const existing = await findByEmail(body.email);
-    if (existing) throw httpError(409, 'DUPLICATE_RESOURCE', 'Email already exists');
+    if (existing) {
+      recordRegistration('failure');
+      throw httpError(409, 'DUPLICATE_RESOURCE', 'Email already exists');
+    }
     const hash = await bcrypt.hash(body.password, 12);
     const { rows } = await pool.query(
       `INSERT INTO users (email, full_name, password_hash, roles, approval_limit)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [body.email.toLowerCase(), body.full_name, hash, body.roles, body.approval_limit ?? null]
     );
+    recordRegistration('success');
     res.status(201).json(publicUser(rows[0]));
   } catch (e) { next(e); }
 });

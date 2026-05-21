@@ -1,0 +1,23 @@
+{
+  "name": "gep-scm-api-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end HTTP test suite for iam, supplier-service, po-service",
+  "scripts": {
+    "test": "jest",
+    "test:iam": "jest src/tests/iam",
+    "test:supplier": "jest src/tests/supplier",
+    "test:po": "jest src/tests/po",
+    "test:cross": "jest src/tests/cross-service",
+    "coverage:open": "node -e \"require('child_process').exec((process.platform==='win32'?'start ':'open ')+'coverage/index.html')\""
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "gep-scm-tests-root": "file:..",
+    "uuid": "^9.0.1"
+  }
+}

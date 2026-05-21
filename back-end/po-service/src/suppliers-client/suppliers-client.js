@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { AppError } = require('../common/errors');
+const { recordCrossServiceCall } = require('../metrics-domain');
 
 const RETRY_DELAYS = [200, 800];
 const FAILURE_THRESHOLD = 5;
@@ -47,8 +48,10 @@ function headers(req) {
 async function getSupplier(req, id) {
   try {
     const res = await withRetry(() => http.get(`/suppliers/${id}`, { headers: headers(req) }));
+    recordCrossServiceCall('supplier', res.status);
     return res.data;
   } catch (e) {
+    recordCrossServiceCall('supplier', e.response?.status || 'error');
     if (e.response?.status === 404) {
       throw new AppError(422, 'SUPPLIER_NOT_FOUND', `Supplier ${id} not found`, { supplier_id: id });
     }

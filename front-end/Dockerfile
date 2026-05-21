@@ -4,10 +4,11 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Install deps with a deterministic lock if present; otherwise install.
+# `npm install` (not `npm ci`) so a stale package-lock.json gets regenerated
+# when new dependencies are added (Faro / Vitest were added in Cycle 8).
+# `--legacy-peer-deps` tolerates OTel/Faro peer-dep ranges.
 COPY package.json ./
-COPY package-lock.json* ./
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+RUN npm install --legacy-peer-deps --no-audit --no-fund
 
 # Copy source and build
 COPY index.html ./

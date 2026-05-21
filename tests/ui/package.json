@@ -1,0 +1,21 @@
+{
+  "name": "gep-scm-ui-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright UI tests for the GEP SCM web app",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "ui:smoke": "node src/scripts/cli.js smoke",
+    "ui:observability": "node src/scripts/cli.js observability",
+    "ui:load": "node src/scripts/cli.js load --iterations 10 --concurrency 2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "gep-scm-tests-root": "file:.."
+  }
+}

@@ -3,6 +3,7 @@ const prisma = require('../prisma');
 const suppliers = require('../suppliers-client/suppliers-client');
 const { AppError } = require('../common/errors');
 const { assertTransition } = require('./state-machine');
+const { recordTransition, recordApprovalDuration } = require('../metrics-domain');
 
 const threshold = new Prisma.Decimal(process.env.DEFAULT_APPROVAL_THRESHOLD ?? '100000');
 
@@ -245,17 +246,22 @@ async function submit(id, principal) {
     throw new AppError(403, 'INSUFFICIENT_ROLE', 'Only the buyer can submit this PO');
   }
   assertTransition(po.status, 'SUBMITTED');
+  const from = po.status;
   if (po.total_amount.lte(threshold)) {
+    const submittedAt = new Date();
     const updated = await prisma.purchaseOrder.update({
       where: { id },
-      data: { status: 'APPROVED', submitted_at: new Date(), approved_at: new Date() },
+      data: { status: 'APPROVED', submitted_at: submittedAt, approved_at: submittedAt },
       include: { line_items: true },
     });
+    recordTransition(from, 'APPROVED', 'auto');
+    recordApprovalDuration(0); // auto-approval ⇒ zero latency for the SLO histogram
     return { ...serialize(updated), auto_approved: true };
   }
   const updated = await prisma.purchaseOrder.update({
     where: { id }, data: { status: 'SUBMITTED', submitted_at: new Date() }, include: { line_items: true },
   });
+  recordTransition(from, 'SUBMITTED', 'ok');
   return { ...serialize(updated), auto_approved: false };
 }
 
@@ -264,11 +270,17 @@ async function approve(id, principal) {
   assertTransition(po.status, 'APPROVED');
   const limit = principal.approval_limit;
   if (limit == null || po.total_amount.gt(d(limit))) {
+    recordTransition(po.status, 'APPROVED', 'limit_exceeded');
     throw new AppError(403, 'APPROVAL_LIMIT_EXCEEDED', `Your approval limit (${limit ?? 0}) is below PO total (${po.total_amount})`, { approval_limit: limit, total_amount: Number(po.total_amount) });
   }
+  const approvedAt = new Date();
   const updated = await prisma.purchaseOrder.update({
-    where: { id }, data: { status: 'APPROVED', approver_id: principal.sub, approved_at: new Date() }, include: { line_items: true },
+    where: { id }, data: { status: 'APPROVED', approver_id: principal.sub, approved_at: approvedAt }, include: { line_items: true },
   });
+  recordTransition(po.status, 'APPROVED', 'ok');
+  if (po.submitted_at) {
+    recordApprovalDuration((approvedAt.getTime() - new Date(po.submitted_at).getTime()) / 1000);
+  }
   return serialize(updated);
 }
 
@@ -278,6 +290,7 @@ async function reject(id, principal, reason) {
   const updated = await prisma.purchaseOrder.update({
     where: { id }, data: { status: 'REJECTED', approver_id: principal.sub, rejection_reason: reason }, include: { line_items: true },
   });
+  recordTransition(po.status, 'REJECTED', 'ok');
   return serialize(updated);
 }
 
@@ -287,6 +300,7 @@ async function fulfill(id, actual_delivery_date) {
   const updated = await prisma.purchaseOrder.update({
     where: { id }, data: { status: 'FULFILLED', fulfilled_at: new Date(), actual_delivery_date: new Date(actual_delivery_date) }, include: { line_items: true },
   });
+  recordTransition(po.status, 'FULFILLED', 'ok');
   return serialize(updated);
 }
 
@@ -296,6 +310,7 @@ async function cancel(id, reason) {
   const updated = await prisma.purchaseOrder.update({
     where: { id }, data: { status: 'CANCELLED', notes: reason ? `${po.notes ?? ''}\n[cancelled] ${reason}`.trim() : po.notes }, include: { line_items: true },
   });
+  recordTransition(po.status, 'CANCELLED', 'ok');
   return serialize(updated);
 }
 
@@ -305,6 +320,7 @@ async function revise(id) {
   const updated = await prisma.purchaseOrder.update({
     where: { id }, data: { status: 'DRAFT', submitted_at: null, approved_at: null, rejection_reason: null, approver_id: null }, include: { line_items: true },
   });
+  recordTransition(po.status, 'DRAFT', 'revised');
   return serialize(updated);
 }
 

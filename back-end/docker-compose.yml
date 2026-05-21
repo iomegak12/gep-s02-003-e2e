@@ -38,6 +38,16 @@ services:
       CORS_ORIGINS: ${CORS_ORIGINS}
       BOOTSTRAP_ADMIN_EMAIL: admin@demo.local
       BOOTSTRAP_ADMIN_PASSWORD: Passw0rd!
+      # ---- OpenTelemetry ----
+      OTEL_SERVICE_NAME: gep-iam
+      OTEL_RESOURCE_ATTRIBUTES: service.namespace=gep,service.version=1.0.0,deployment.environment=dev
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_LOGS_EXPORTER: otlp
+      OTEL_PROPAGATORS: tracecontext,baggage
+      NODE_OPTIONS: "--require ./src/telemetry.js"
       # Shared secret used by po-service to call IAM's internal notifications endpoint.
       # SECURITY: rotate before any non-training deployment.
       INTERNAL_SERVICE_TOKEN: dev-shared-7a89f1c4e2b6d3a0f8e5c1b4a7d9f2e6c5b8a3f0d7e1c4b9a6f3d8e2c5b1a4f7
@@ -79,6 +89,16 @@ services:
       JWT_ISSUER: ${JWT_ISSUER}
       JWT_AUDIENCE: gep-supplier
       CORS_ORIGINS: ${CORS_ORIGINS}
+      # ---- OpenTelemetry ----
+      OTEL_SERVICE_NAME: gep-supplier
+      OTEL_RESOURCE_ATTRIBUTES: service.namespace=gep,service.version=1.0.0,deployment.environment=dev
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_LOGS_EXPORTER: otlp
+      OTEL_PROPAGATORS: tracecontext,baggage
+      OTEL_PYTHON_LOG_CORRELATION: "true"
     ports:
       - "3002:3002"
     depends_on:
@@ -105,6 +125,16 @@ services:
       AUTH_SERVICE_URL: http://iam:3001
       # Must match INTERNAL_SERVICE_TOKEN on the iam service above.
       INTERNAL_SERVICE_TOKEN: dev-shared-7a89f1c4e2b6d3a0f8e5c1b4a7d9f2e6c5b8a3f0d7e1c4b9a6f3d8e2c5b1a4f7
+      # ---- OpenTelemetry ----
+      OTEL_SERVICE_NAME: gep-po
+      OTEL_RESOURCE_ATTRIBUTES: service.namespace=gep,service.version=1.0.0,deployment.environment=dev
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_LOGS_EXPORTER: otlp
+      OTEL_PROPAGATORS: tracecontext,baggage
+      NODE_OPTIONS: "--require ./src/telemetry.js"
     ports:
       - "3003:3003"
     depends_on:
@@ -155,10 +185,114 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  # ------------------------------------------------------------------ #
+  #  Observability stack (Cycle 2)                                      #
+  #  OTel Collector ─► Prometheus / Loki / Tempo ─► Grafana             #
+  # ------------------------------------------------------------------ #
+
+  otel-collector:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.130.0
+    command: ["--config=/etc/otel/collector-config.yaml"]
+    volumes:
+      - ./observability/otel-collector-config.yaml:/etc/otel/collector-config.yaml:ro
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+      - "8889:8889"   # Prometheus scrape target (exposition)
+      - "13133:13133" # Health-check
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:13133/"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    depends_on:
+      - tempo
+      - loki
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./observability/prometheus-rules.yml:/etc/prometheus/prometheus-rules.yml:ro
+      - promdata:/prometheus
+    ports:
+      - "9090:9090"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  loki:
+    image: grafana/loki:3.4.1
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./observability/loki-config.yaml:/etc/loki/loki-config.yaml:ro
+      - lokidata:/loki
+    ports:
+      - "3100:3100"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3100/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  tempo:
+    image: grafana/tempo:2.7.0
+    command: ["-config.file=/etc/tempo/tempo-config.yaml"]
+    volumes:
+      - ./observability/tempo-config.yaml:/etc/tempo/tempo-config.yaml:ro
+      - tempodata:/var/tempo
+    ports:
+      - "3200:3200"   # Tempo HTTP
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3200/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_FEATURE_TOGGLES_ENABLE: "traceqlEditor traceqlSearch"
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafanadata:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      prometheus:
+        condition: service_healthy
+      loki:
+        condition: service_healthy
+      tempo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
 volumes:
   pgdata:
   mongodata:
   cloudbeaver_data:
+  promdata:
+  lokidata:
+  tempodata:
+  grafanadata:
 
 networks:
   default:

@@ -14,7 +14,8 @@ export default defineConfig({
       '/api/v1/purchase-orders': { target: 'http://localhost:3003', changeOrigin: true },
       '/health/iam':             { target: 'http://localhost:3001', changeOrigin: true, rewrite: () => '/health' },
       '/health/sup':             { target: 'http://localhost:3002', changeOrigin: true, rewrite: () => '/health' },
-      '/health/po':              { target: 'http://localhost:3003', changeOrigin: true, rewrite: () => '/health' }
+      '/health/po':              { target: 'http://localhost:3003', changeOrigin: true, rewrite: () => '/health' },
+      '/otlp/v1':                { target: 'http://localhost:4318', changeOrigin: true, rewrite: (p) => p.replace(/^\/otlp/, '') }
     }
   },
   build: {

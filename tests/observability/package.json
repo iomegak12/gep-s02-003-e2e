@@ -1,0 +1,23 @@
+{
+  "name": "gep-scm-observability-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Observability test suite: validates OTel pipeline, Prometheus exposition, traces, logs, SLO rules and Grafana dashboards across IAM, Supplier and PO services.",
+  "scripts": {
+    "test": "jest",
+    "test:metrics": "jest src/specs/metrics-endpoint.spec.js src/specs/runtime-metrics.spec.js src/specs/http-metrics.spec.js",
+    "test:traces": "jest src/specs/trace-propagation.spec.js src/specs/service-graph.spec.js",
+    "test:logs": "jest src/specs/log-correlation.spec.js",
+    "test:domain": "jest src/specs/domain-metrics.spec.js",
+    "test:slo": "jest src/specs/slo-rules.spec.js",
+    "test:dashboards": "jest src/specs/dashboards.spec.js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "uuid": "^10.0.0"
+  }
+}

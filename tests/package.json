@@ -1,0 +1,20 @@
+{
+  "name": "gep-scm-tests-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root orchestrator for GEP SCM test suites (API + UI).",
+  "scripts": {
+    "install:all": "npm --prefix ./api install && npm --prefix ./ui install && npm --prefix ./observability install && npx --prefix ./ui playwright install --with-deps chromium",
+    "test:api": "npm --prefix ./api test",
+    "test:api:iam": "npm --prefix ./api run test:iam",
+    "test:api:supplier": "npm --prefix ./api run test:supplier",
+    "test:api:po": "npm --prefix ./api run test:po",
+    "test:api:cross": "npm --prefix ./api run test:cross",
+    "test:ui": "npm --prefix ./ui test",
+    "test:ui:headed": "npm --prefix ./ui run test:headed",
+    "test:ui:report": "npm --prefix ./ui run report",
+    "test:observability": "npm --prefix ./observability test",
+    "coverage:api:open": "npm --prefix ./api run coverage:open",
+    "test:all": "npm run test:api && npm run test:ui && npm run test:observability"
+  }
+}

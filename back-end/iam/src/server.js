@@ -7,6 +7,7 @@ const notificationsRoutes = require('./notifications');
 const { correlation, errorHandler } = require('./middleware');
 const swaggerUi = require('swagger-ui-express');
 const openapiSpec = require('./openapi');
+const { logger } = require('./logger');
 
 async function ensureBootstrapAdmin() {
   const email = (process.env.BOOTSTRAP_ADMIN_EMAIL || '').toLowerCase();
@@ -19,7 +20,7 @@ async function ensureBootstrapAdmin() {
     `INSERT INTO users (email, full_name, password_hash, roles) VALUES ($1, $2, $3, $4)`,
     [email, 'Bootstrap Admin', hash, ['ADMIN']],
   );
-  console.log(`[iam] bootstrapped admin ${email}`);
+  logger.info({ email }, 'bootstrapped admin');
 }
 
 const PORT = parseInt(process.env.PORT || '3001', 10);
@@ -33,6 +34,16 @@ async function main() {
   app.use(cors({ origin: origins.length ? origins : true, credentials: true }));
   app.use(express.json({ limit: '1mb' }));
   app.use(correlation);
+
+  // Structured request log — PinoInstrumentation injects trace_id / span_id.
+  app.use((req, _res, next) => {
+    logger.info({
+      method: req.method,
+      path: req.originalUrl,
+      correlation_id: req.correlationId,
+    }, 'http request');
+    next();
+  });
 
   app.get('/health', async (req, res) => {
     try { await pool.query('SELECT 1'); res.json({ ok: true }); }
@@ -49,7 +60,7 @@ async function main() {
   app.use('/api/v1/internal', notificationsRoutes);
   app.use(errorHandler);
 
-  app.listen(PORT, () => console.log(`[iam] listening on :${PORT}`));
+  app.listen(PORT, () => logger.info({ port: PORT }, 'iam listening'));
 }
 
-main().catch(e => { console.error('[iam] fatal', e); process.exit(1); });
+main().catch(e => { logger.error({ err: e.message, stack: e.stack }, 'iam fatal'); process.exit(1); });

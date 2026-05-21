@@ -7,6 +7,7 @@ from ..db import suppliers
 from ..errors import AppError
 from ..models import SupplierCreate, SupplierUpdate, ReasonBody
 from ..state_machine import assert_transition
+from ..metrics_domain import record_blacklist_hit, record_crud, record_transition
 
 router = APIRouter(prefix="/suppliers", tags=["suppliers"])
 
@@ -43,6 +44,7 @@ async def create(body: SupplierCreate, principal: Principal = Depends(require_ro
         "deleted_at": None,
     }
     await suppliers().insert_one(doc)
+    record_crud("create", "success")
     return _strip_id(doc)
 
 @router.get("")
@@ -163,6 +165,7 @@ async def update(sid: str, body: SupplierUpdate, _: Principal = Depends(require_
         return await _get(sid)
     patch["updated_at"] = _now()
     await suppliers().update_one({"id": sid}, {"$set": patch})
+    record_crud("update", "success")
     return await _get(sid)
 
 @router.delete("/{sid}", status_code=204)
@@ -172,12 +175,17 @@ async def soft_delete(sid: str, _: Principal = Depends(require_roles("ADMIN"))):
         {"id": sid},
         {"$set": {"status": "INACTIVE", "deleted_at": _now(), "updated_at": _now()}},
     )
+    record_crud("delete", "success")
+    record_transition(s["status"], "INACTIVE", "soft_delete")
 
 async def _transition(sid: str, target: str, extra: dict | None = None):
     s = await _get(sid)
     assert_transition(s["status"], target)
     patch = {"status": target, "updated_at": _now(), **(extra or {})}
     await suppliers().update_one({"id": sid}, {"$set": patch})
+    record_transition(s["status"], target, "ok")
+    if target == "BLACKLISTED":
+        record_blacklist_hit(sid)
     return await _get(sid)
 
 @router.post("/{sid}/approve")

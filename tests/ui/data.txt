@@ -1,0 +1,7 @@
+# Data-driven test users for Playwright UI suite.
+# Format (pipe-delimited):  username|password|role
+# Lines starting with '#' and blank lines are ignored.
+# 'role' is a logical label used in test titles; it does not change behaviour.
+admin@demo.local|Passw0rd!|admin
+buyer@demo.local|Passw0rd!|buyer
+approver-hi@demo.local|Passw0rd!|approver

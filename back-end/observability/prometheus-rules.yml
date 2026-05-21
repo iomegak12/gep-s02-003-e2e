@@ -1,0 +1,54 @@
+groups:
+  - name: gep-slo-recording
+    interval: 30s
+    rules:
+
+      # ---- PO approval-latency SLO (target: p99 < 500ms) ----
+      - record: slo:po_approval_latency:p99_5m
+        expr: |
+          histogram_quantile(
+            0.99,
+            sum by (le) (rate(po_approval_duration_seconds_bucket[5m]))
+          )
+
+      # ---- HTTP error ratio per service (target: < 1%) ----
+      - record: slo:http_error_ratio:5m
+        expr: |
+          sum by (service_name) (
+            rate(http_server_duration_count{http_status_code=~"5.."}[5m])
+          )
+          /
+          clamp_min(
+            sum by (service_name) (rate(http_server_duration_count[5m])),
+            1e-9
+          )
+
+      # ---- 30-day availability (1 - error_ratio over 30d) ----
+      - record: slo:availability:30d
+        expr: |
+          1 -
+          (
+            sum by (service_name) (
+              rate(http_server_duration_count{http_status_code=~"5.."}[30d])
+            )
+            /
+            clamp_min(
+              sum by (service_name) (rate(http_server_duration_count[30d])),
+              1e-9
+            )
+          )
+
+      # ---- RUM Core Web Vitals SLOs (Faro emits *_seconds gauges) ----
+      - record: slo:rum_web_vitals_lcp:p75_24h
+        expr: |
+          quantile_over_time(
+            0.75,
+            faro_web_vitals_lcp_seconds[24h]
+          )
+
+      - record: slo:rum_web_vitals_inp:p75_24h
+        expr: |
+          quantile_over_time(
+            0.75,
+            faro_web_vitals_inp_seconds[24h]
+          )

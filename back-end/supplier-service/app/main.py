@@ -4,10 +4,13 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from .telemetry import init_telemetry, instrument_fastapi
 from .config import settings
 from .db import client, ensure_indexes
 from .errors import AppError, app_error_handler, validation_handler, unhandled_handler
 from .routers.suppliers import router as suppliers_router
+
+init_telemetry()
 
 app = FastAPI(
     title="GEP-SCM Supplier Service",
@@ -53,6 +56,8 @@ app.add_exception_handler(RequestValidationError, validation_handler)
 app.add_exception_handler(Exception, unhandled_handler)
 
 app.include_router(suppliers_router, prefix="/api/v1")
+
+instrument_fastapi(app)
 
 @app.on_event("startup")
 async def on_start():

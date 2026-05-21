@@ -1,0 +1,34 @@
+# Unit tests for SLO recording rules. Run with: `promtool test rules prometheus-rules-tests.yml`
+rule_files:
+  - prometheus-rules.yml
+
+evaluation_interval: 30s
+
+tests:
+
+  - name: po-approval-latency-p99
+    interval: 30s
+    input_series:
+      # Single bucket histogram: all 10 samples land in the +Inf bucket at 0.4s.
+      - series: 'po_approval_duration_seconds_bucket{le="0.5"}'
+        values: '0 0 0 0 0 0 0 0 0 10'
+      - series: 'po_approval_duration_seconds_bucket{le="+Inf"}'
+        values: '0 0 0 0 0 0 0 0 0 10'
+    promql_expr_test:
+      - expr: slo:po_approval_latency:p99_5m
+        eval_time: 4m30s
+        exp_samples:
+          - labels: '{}'
+            value: 0.5
+
+  - name: http-error-ratio-zero-when-no-errors
+    interval: 30s
+    input_series:
+      - series: 'http_server_duration_count{service_name="gep-iam",http_status_code="200"}'
+        values: '0+10x10'
+    promql_expr_test:
+      - expr: slo:http_error_ratio:5m
+        eval_time: 4m30s
+        exp_samples:
+          - labels: '{service_name="gep-iam"}'
+            value: 0

@@ -24,7 +24,8 @@ $Containers = [ordered]@{
     9 = @{ Name = 'Mongo Express';  Container = 'gep-mongo-express' }
 }
 
-$IacDir = Join-Path $RepoRoot 'iac'
+$IacDir   = Join-Path $RepoRoot 'iac'
+$TestsDir = Join-Path $RepoRoot 'tests'
 
 function Show-Menu {
     Write-Host ""
@@ -35,7 +36,8 @@ function Show-Menu {
     Write-Host " d) View container logs"
     Write-Host " e) Restart containers"
     Write-Host " f) Azure IaC deployment (Terraform)"
-    Write-Host " g) Exit"
+    Write-Host " g) Run tests (API / UI / Both)"
+    Write-Host " h) Exit"
     Write-Host "==========================="
 }
 
@@ -153,6 +155,83 @@ function Invoke-IacMenu {
     }
 }
 
+function Test-TestsPrereqs {
+    if (-not (Test-Path $TestsDir)) {
+        Write-Host "Tests folder not found at $TestsDir" -ForegroundColor Red
+        return $false
+    }
+    if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+        Write-Host "npm not found on PATH. Install Node.js first." -ForegroundColor Red
+        return $false
+    }
+    $apiNm = Join-Path $TestsDir 'api/node_modules'
+    $uiNm  = Join-Path $TestsDir 'ui/node_modules'
+    if (-not (Test-Path $apiNm) -or -not (Test-Path $uiNm)) {
+        Write-Host "Test dependencies are not installed yet." -ForegroundColor Yellow
+        $ans = Read-Host "Run 'npm run install:all' now? (y/N)"
+        if ($ans -match '^(y|yes)$') {
+            Push-Location $TestsDir
+            try { npm run install:all } finally { Pop-Location }
+        } else {
+            return $false
+        }
+    }
+    return $true
+}
+
+function Invoke-TestsCommand {
+    param([Parameter(Mandatory)][string]$Script, [string]$Label)
+    if ($Label) { Write-Host "==> Running $Label..." -ForegroundColor Cyan }
+    Push-Location $TestsDir
+    try {
+        npm run $Script
+        $code = $LASTEXITCODE
+        if ($code -eq 0) {
+            Write-Host "==> $Label completed successfully." -ForegroundColor Green
+        } else {
+            Write-Host "==> $Label exited with code $code." -ForegroundColor Red
+        }
+    } finally {
+        Pop-Location
+    }
+}
+
+function Show-TestsMenu {
+    Write-Host ""
+    Write-Host "--- Test Suites ---" -ForegroundColor Cyan
+    Write-Host "  1) Run API tests (Jest + coverage)"
+    Write-Host "  2) Run UI tests (Playwright, Chromium)"
+    Write-Host "  3) Run BOTH (API then UI)"
+    Write-Host "  4) Run UI tests (headed)"
+    Write-Host "  5) Open last UI HTML report"
+    Write-Host "  6) Open API coverage report"
+    Write-Host "  7) (Re)install test dependencies"
+    Write-Host "  0) Back to main menu"
+    Write-Host "-------------------"
+}
+
+function Invoke-TestsMenu {
+    if (-not (Test-TestsPrereqs)) { return }
+    while ($true) {
+        Show-TestsMenu
+        $sub = (Read-Host "Choose a test option")
+        switch ($sub) {
+            '1' { Invoke-TestsCommand -Script 'test:api'       -Label 'API tests' }
+            '2' { Invoke-TestsCommand -Script 'test:ui'        -Label 'UI tests' }
+            '3' { Invoke-TestsCommand -Script 'test:all'       -Label 'API + UI tests' }
+            '4' { Invoke-TestsCommand -Script 'test:ui:headed' -Label 'UI tests (headed)' }
+            '5' { Invoke-TestsCommand -Script 'test:ui:report' -Label 'UI HTML report' }
+            '6' { Invoke-TestsCommand -Script 'coverage:api:open' -Label 'API coverage report' }
+            '7' {
+                Push-Location $TestsDir
+                try { npm run install:all } finally { Pop-Location }
+            }
+            '0' { return }
+            default { Write-Host "Invalid choice." -ForegroundColor Red }
+        }
+    }
+}
+
 while ($true) {
     Show-Menu
     $choice = (Read-Host "Choose an option").ToLower()
@@ -163,7 +242,8 @@ while ($true) {
         'd' { Show-Logs }
         'e' { Invoke-Restart }
         'f' { Invoke-IacMenu }
-        'g' { Write-Host "Goodbye." -ForegroundColor Green; return }
+        'g' { Invoke-TestsMenu }
+        'h' { Write-Host "Goodbye." -ForegroundColor Green; return }
         default { Write-Host "Invalid choice." -ForegroundColor Red }
     }
 }
